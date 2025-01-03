@@ -1,0 +1,16 @@
+﻿<Application x:Class="Hotel.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:Hotel"
+             xmlns:viewmodel="clr-namespace:Hotel.MVVM.Viewmodel"
+             xmlns:view="clr-namespace:Hotel.MVVM.View">
+    <Application.Resources>
+         <DataTemplate DataType="{x:Type viewmodel:HomeViewModel}">
+            <view:HomeView/>
+         </DataTemplate>
+
+        <DataTemplate DataType="{x:Type viewmodel:ReservationViewModel}">
+            <view:ReservationView/>
+        </DataTemplate>
+    </Application.Resources>
+</Application>
