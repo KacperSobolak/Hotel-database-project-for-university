@@ -3,6 +3,7 @@ using System.Data;
 using System.Windows;
 using Hotel.Core;
 using Hotel.MVVM.Viewmodel;
+using Hotel.Repositories;
 using Hotel.Services;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -28,6 +29,7 @@ namespace Hotel
             services.AddSingleton<RoomsViewModel>();
             services.AddSingleton<CategoriesViewModel>();
             services.AddSingleton<INavigationService, NavigationService>();
+            services.AddSingleton<ICategoriesRepository, CategoriesRepository>();
 
             services.AddSingleton<Func<Type, ViewModel>>(serviceProvider =>
                 viewModelType => (ViewModel)serviceProvider.GetRequiredService(viewModelType));
