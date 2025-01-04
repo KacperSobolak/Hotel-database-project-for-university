@@ -18,9 +18,9 @@ namespace Hotel.MVVM.View
     /// <summary>
     /// Interaction logic for ReservationView.xaml
     /// </summary>
-    public partial class ReservationView : Page
+    public partial class ReservationsView : UserControl
     {
-        public ReservationView()
+        public ReservationsView()
         {
             InitializeComponent();
         }

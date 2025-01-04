@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Hotel.MVVM.Viewmodel
+namespace Hotel.Core
 {
-    internal class ReservationViewModel
+    public abstract class ViewModel : ObservableObject
     {
     }
 }

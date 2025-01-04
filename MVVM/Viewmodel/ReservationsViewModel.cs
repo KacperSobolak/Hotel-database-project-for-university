@@ -7,7 +7,7 @@ using Hotel.Core;
 
 namespace Hotel.MVVM.Viewmodel
 {
-    internal class HomeViewModel : ViewModel
+    internal class ReservationsViewModel : ViewModel
     {
     }
 }

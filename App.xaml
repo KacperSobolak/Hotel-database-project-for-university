@@ -9,8 +9,8 @@
             <view:HomeView/>
          </DataTemplate>
 
-        <DataTemplate DataType="{x:Type viewmodel:ReservationViewModel}">
-            <view:ReservationView/>
+        <DataTemplate DataType="{x:Type viewmodel:ReservationsViewModel}">
+            <view:ReservationsView/>
         </DataTemplate>
     </Application.Resources>
 </Application>

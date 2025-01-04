@@ -1,6 +1,9 @@
 ﻿using System.Configuration;
 using System.Data;
 using System.Windows;
+using Hotel.Core;
+using Hotel.MVVM.Viewmodel;
+using Hotel.Services;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Hotel
@@ -15,7 +18,17 @@ namespace Hotel
         public App()
         {
             IServiceCollection services = new ServiceCollection();
-            services.AddSingleton<MainWindow>();
+            services.AddSingleton<MainWindow>(provider => new MainWindow()
+            {
+                DataContext = provider.GetRequiredService<MainViewModel>()
+            });
+            services.AddSingleton<MainViewModel>();
+            services.AddSingleton<HomeViewModel>();
+            services.AddSingleton<ReservationsViewModel>();
+            services.AddSingleton<INavigationService, NavigationService>();
+
+            services.AddSingleton<Func<Type, ViewModel>>(serviceProvider =>
+                viewModelType => (ViewModel)serviceProvider.GetRequiredService(viewModelType));
 
             _serviceProvider = services.BuildServiceProvider();
         }

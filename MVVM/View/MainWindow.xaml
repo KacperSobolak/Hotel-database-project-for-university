@@ -6,4 +6,23 @@
         xmlns:local="clr-namespace:Hotel"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="100"/>
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+
+        <StackPanel>
+            <Button Content="Home"
+                    Command="{Binding NavigateToHomeCommand}"/>
+
+            <Button Content="Reservation"
+                    Command="{Binding NavigateToReservationCommand}"/>
+        </StackPanel>
+
+        <ContentControl Grid.Column="1" Content="{Binding NavigationService.CurrentView}">
+
+        </ContentControl>
+    </Grid>
 </Window>
