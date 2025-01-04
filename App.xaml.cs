@@ -25,6 +25,8 @@ namespace Hotel
             services.AddSingleton<MainViewModel>();
             services.AddSingleton<HomeViewModel>();
             services.AddSingleton<ReservationsViewModel>();
+            services.AddSingleton<RoomsViewModel>();
+            services.AddSingleton<CategoriesViewModel>();
             services.AddSingleton<INavigationService, NavigationService>();
 
             services.AddSingleton<Func<Type, ViewModel>>(serviceProvider =>

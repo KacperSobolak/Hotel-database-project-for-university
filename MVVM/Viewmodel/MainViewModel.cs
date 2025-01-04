@@ -23,13 +23,17 @@ namespace Hotel.MVVM.Viewmodel
         }
 
         public RelayCommand NavigateToHomeCommand { get; set; }
-        public RelayCommand NavigateToReservationCommand { get; set; }
+        public RelayCommand NavigateToReservationsCommand { get; set; }
+        public RelayCommand NavigateToRoomsCommand { get; set; }
+        public RelayCommand NavigateToCategoriesCommand { get; set; }
 
         public MainViewModel(INavigationService navigationService)
         {
             NavigationService = navigationService;
             NavigateToHomeCommand = new RelayCommand(o => { NavigationService.NavigateTo<HomeViewModel>(); }, o => true);
-            NavigateToReservationCommand = new RelayCommand(o => { NavigationService.NavigateTo<ReservationsViewModel>(); }, o => true);
+            NavigateToReservationsCommand = new RelayCommand(o => { NavigationService.NavigateTo<ReservationsViewModel>(); }, o => true);
+            NavigateToRoomsCommand = new RelayCommand(o => { NavigationService.NavigateTo<RoomsViewModel>(); }, o => true);
+            NavigateToCategoriesCommand = new RelayCommand(o => { NavigationService.NavigateTo<CategoriesViewModel>(); }, o => true);
         }
     }
 }

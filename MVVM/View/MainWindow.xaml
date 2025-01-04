@@ -17,8 +17,15 @@
             <Button Content="Home"
                     Command="{Binding NavigateToHomeCommand}"/>
 
-            <Button Content="Reservation"
-                    Command="{Binding NavigateToReservationCommand}"/>
+            <Button Content="Reservations"
+                    Command="{Binding NavigateToReservationsCommand}"/>
+
+            <Button Content="Rooms"
+                    Command="{Binding NavigateToRoomsCommand}"/>
+
+            <Button Content="Categories"
+                    Command="{Binding NavigateToCategoriesCommand}"/>
+
         </StackPanel>
 
         <ContentControl Grid.Column="1" Content="{Binding NavigationService.CurrentView}">
