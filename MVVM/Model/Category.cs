@@ -12,5 +12,15 @@ namespace Hotel.MVVM.Model
         public string Name { get; set; }
         public string Description { get; set; }
         public double PricePerAdultPerNight { get; set; }
+
+        public Category() { }
+
+        public Category(Category other)
+        {
+            Id = other.Id;
+            Name = other.Name;
+            Description = other.Description;
+            PricePerAdultPerNight = other.PricePerAdultPerNight;
+        }
     }
 }

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Hotel.Core;
+﻿using Hotel.Core;
 using Hotel.Services;
 
 namespace Hotel.MVVM.Viewmodel
@@ -30,10 +25,14 @@ namespace Hotel.MVVM.Viewmodel
         public MainViewModel(INavigationService navigationService)
         {
             NavigationService = navigationService;
-            NavigateToHomeCommand = new RelayCommand(o => { NavigationService.NavigateTo<HomeViewModel>(); }, o => true);
-            NavigateToReservationsCommand = new RelayCommand(o => { NavigationService.NavigateTo<ReservationsViewModel>(); }, o => true);
-            NavigateToRoomsCommand = new RelayCommand(o => { NavigationService.NavigateTo<RoomsViewModel>(); }, o => true);
-            NavigateToCategoriesCommand = new RelayCommand(o => { NavigationService.NavigateTo<CategoriesViewModel>(); }, o => true);
+            NavigateToHomeCommand =
+                new RelayCommand(o => { NavigationService.NavigateTo<HomeViewModel>(); }, o => true);
+            NavigateToReservationsCommand =
+                new RelayCommand(o => { NavigationService.NavigateTo<ReservationsViewModel>(); }, o => true);
+            NavigateToRoomsCommand =
+                new RelayCommand(o => { NavigationService.NavigateTo<RoomsViewModel>(); }, o => true);
+            NavigateToCategoriesCommand =
+                new RelayCommand(o => { NavigationService.NavigateTo<CategoriesViewModel>(); }, o => true);
         }
     }
 }

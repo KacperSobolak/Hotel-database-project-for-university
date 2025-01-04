@@ -43,20 +43,23 @@ namespace Hotel.Repositories
             return categories;
         }
 
-        public void AddCategory(Category category)
+        public int AddCategory(Category category)
         {
+            int id = -1;
             using (var connection = new NpgsqlConnection(_connectionString))
             {
                 connection.Open();
-                string query = "INSERT INTO project.room_categories (category, description, price_per_night_per_adult) VALUES (@category, @description, @price)";
+                string query = "INSERT INTO project.room_categories (name, description, price_per_night_per_adult) VALUES (@category, @description, @price) returning id";
 
                 using (var command = new NpgsqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@category", category.Name);
                     command.Parameters.AddWithValue("@description", category.Description);
                     command.Parameters.AddWithValue("@price", category.PricePerAdultPerNight);
-                    command.ExecuteNonQuery();
+                    id = (int)command.ExecuteScalar();
                 }
+
+                return id;
             }
         }
 
@@ -65,13 +68,15 @@ namespace Hotel.Repositories
             using (var connection = new NpgsqlConnection(_connectionString))
             {
                 connection.Open();
-                string query = "UPDATE project.room_categories SET description = @description, price_per_night_per_adult = @price WHERE category = @category";
+                string query = "UPDATE project.room_categories SET name = @category, description = @description, price_per_night_per_adult = @price WHERE id = @id";
 
                 using (var command = new NpgsqlCommand(query, connection))
                 {
+                    command.Parameters.AddWithValue("@id", category.Id);
                     command.Parameters.AddWithValue("@category", category.Name);
                     command.Parameters.AddWithValue("@description", category.Description);
                     command.Parameters.AddWithValue("@price", category.PricePerAdultPerNight);
+
                     command.ExecuteNonQuery();
                 }
             }

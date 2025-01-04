@@ -10,7 +10,7 @@ namespace Hotel.Repositories
     public interface ICategoriesRepository
     {
         IEnumerable<Category> GetCategories();
-        void AddCategory(Category category);
+        int AddCategory(Category category);
         void UpdateCategory(Category category);
         void DeleteCategory(Category category);
     }
