@@ -33,6 +33,7 @@ namespace Hotel
             services.AddSingleton<ICategoriesRepository, CategoriesRepository>();
             services.AddSingleton<IGuestsRepository, GuestsRepository>();
             services.AddSingleton<IRoomRepository, RoomRepository>();
+            services.AddSingleton<IReservationRepository, ReservationRepository>();
 
             services.AddSingleton<Func<Type, ViewModel>>(serviceProvider =>
                 viewModelType => (ViewModel)serviceProvider.GetRequiredService(viewModelType));
