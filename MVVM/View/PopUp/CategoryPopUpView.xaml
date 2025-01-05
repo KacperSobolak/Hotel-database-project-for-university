@@ -33,7 +33,7 @@
             <Button Content="Anuluj" Command="{Binding CancelCommand}" 
                     CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}" 
                     Margin="0,0,10,0" />
-            <Button Content="Dodaj" Command="{Binding ConfirmCommand}" 
+            <Button Content="{Binding ButtonName}" Command="{Binding ConfirmCommand}" 
                     CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}" 
                     IsDefault="True" />
         </StackPanel>
