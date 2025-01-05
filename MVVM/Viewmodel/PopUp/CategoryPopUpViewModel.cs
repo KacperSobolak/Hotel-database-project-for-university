@@ -16,6 +16,7 @@ namespace Hotel.MVVM.Viewmodel.PopUp
         private Category _category;
         private string _validationError;
         private string _buttonName;
+        private string _windowName;
 
         public Category Category
         {
@@ -47,13 +48,24 @@ namespace Hotel.MVVM.Viewmodel.PopUp
             }
         }
 
+        public string WindowName
+        {
+            get => _windowName;
+            set
+            {
+                _windowName = value;
+                OnPropertyChanged();
+            }
+        }
+
         public RelayCommand ConfirmCommand { get; set; }
         public RelayCommand CancelCommand { get; set; }
 
-        public CategoryPopUpViewModel(string buttonName) : this(buttonName, new Category()) { }
+        public CategoryPopUpViewModel(string windowName, string buttonName) : this(windowName, buttonName, new Category()) { }
 
-        public CategoryPopUpViewModel(string buttonName, Category category)
+        public CategoryPopUpViewModel(string windowName, string buttonName, Category category)
         {
+            WindowName = windowName;
             ButtonName = buttonName;
             Category = category;
 

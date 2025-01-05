@@ -29,7 +29,7 @@ namespace Hotel.MVVM.Viewmodel
         {
             var dialog = new CategoryPopUpView()
             {
-                DataContext = new CategoryPopUpViewModel("Dodaj")
+                DataContext = new CategoryPopUpViewModel("Dodawanie kategorii","Dodaj")
             };
 
             if (dialog.ShowDialog() == true)
@@ -54,7 +54,7 @@ namespace Hotel.MVVM.Viewmodel
 
             var dialog = new CategoryPopUpView()
             {
-                DataContext = new CategoryPopUpViewModel("Edytuj", new Category(categoryToEdit))
+                DataContext = new CategoryPopUpViewModel("Edytowanie elementu","Edytuj", new Category(categoryToEdit))
             };
 
             if (dialog.ShowDialog() == true)
