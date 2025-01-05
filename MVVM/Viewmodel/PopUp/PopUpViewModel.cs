@@ -1,29 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
+﻿using System.Windows;
 using Hotel.Core;
 using Hotel.Core.Validators;
-using Hotel.MVVM.Model;
 
 namespace Hotel.MVVM.Viewmodel.PopUp
 {
-    class CategoryPopUpViewModel : ViewModel
+    class PopUpViewModel<T> : ViewModel where T : new()
     {
-        private Category _category;
+        private T _element;
         private string _validationError;
         private string _buttonName;
         private string _windowName;
 
-        public Category Category
+        public T Element
         {
-            get => _category;
+            get => _element;
             set
             {
-                _category = value;
+                _element = value;
                 OnPropertyChanged();
             }
         }
@@ -61,13 +54,13 @@ namespace Hotel.MVVM.Viewmodel.PopUp
         public RelayCommand ConfirmCommand { get; set; }
         public RelayCommand CancelCommand { get; set; }
 
-        public CategoryPopUpViewModel(string windowName, string buttonName) : this(windowName, buttonName, new Category()) { }
+        public PopUpViewModel(string windowName, string buttonName) : this(windowName, buttonName, new T()) { }
 
-        public CategoryPopUpViewModel(string windowName, string buttonName, Category category)
+        public PopUpViewModel(string windowName, string buttonName, T element)
         {
             WindowName = windowName;
             ButtonName = buttonName;
-            Category = category;
+            Element = element;
 
             ConfirmCommand = new RelayCommand(Confirm, o => ValidateAndConfirm());
             CancelCommand = new RelayCommand(Cancel, o => true);
@@ -93,8 +86,8 @@ namespace Hotel.MVVM.Viewmodel.PopUp
 
         private bool ValidateAndConfirm()
         {
-            var isValid = CategoryValidator.Validate(Category);
-            ValidationError = !isValid ? "Proszę poprawić dane kategorii. Nazwa nie może być pusta, a cena musi być większa od 0." : string.Empty;
+            var isValid = Validator.Validate(Element);
+            ValidationError = !isValid ? "Proszę poprawić dane." : string.Empty;
 
             return isValid;
         }

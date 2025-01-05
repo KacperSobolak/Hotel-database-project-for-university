@@ -19,13 +19,13 @@
         </Grid.RowDefinitions>
 
         <TextBlock Text="Nazwa:" Grid.Row="0" Margin="0,0,0,5" />
-        <TextBox Text="{Binding Category.Name, UpdateSourceTrigger=PropertyChanged}" Grid.Row="1" />
+        <TextBox Text="{Binding Element.Name, UpdateSourceTrigger=PropertyChanged}" Grid.Row="1" />
 
         <TextBlock Text="Opis:" Grid.Row="2" Margin="0,10,0,5" />
-        <TextBox Text="{Binding Category.Description, UpdateSourceTrigger=PropertyChanged}" Grid.Row="3" />
+        <TextBox Text="{Binding Element.Description, UpdateSourceTrigger=PropertyChanged}" Grid.Row="3" />
 
         <TextBlock Text="Cena za noc/osobę:" Grid.Row="4" Margin="0,10,0,5" />
-        <TextBox Text="{Binding Category.PricePerAdultPerNight, UpdateSourceTrigger=PropertyChanged}" Grid.Row="5" />
+        <TextBox Text="{Binding Element.PricePerAdultPerNight, UpdateSourceTrigger=PropertyChanged}" Grid.Row="5" />
 
         <TextBlock Text="{Binding ValidationError}" Foreground="Red" FontWeight="Bold" Grid.Row="6" Margin="0,10,0,0" TextWrapping="Wrap" />
 

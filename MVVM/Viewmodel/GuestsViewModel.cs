@@ -34,13 +34,13 @@ namespace Hotel.MVVM.Viewmodel
         {
             var dialog = new GuestPopUpView()
             {
-                DataContext = new GuestPopUpViewModel("Dodawanie użytkownika", "Dodaj")
+                DataContext = new PopUpViewModel<Guest>("Dodawanie użytkownika", "Dodaj")
             };
 
             if (dialog.ShowDialog() == true)
             {
-                var viewModel = dialog.DataContext as GuestPopUpViewModel;
-                var newGuest = viewModel?.Guest;
+                var viewModel = dialog.DataContext as PopUpViewModel<Guest>;
+                var newGuest = viewModel?.Element;
 
                 if (newGuest != null)
                 {
