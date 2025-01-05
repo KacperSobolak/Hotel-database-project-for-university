@@ -39,7 +39,7 @@ namespace Hotel.Repositories
                                 Surname = reader.GetString(2),
                                 Phone = reader.GetString(3),
                                 Email = reader.IsDBNull(4) ? "Nie podano" : reader.GetString(4),
-                                DateOfBirth = reader.GetDateTime(5),
+                                DateOfBirth = DateOnly.FromDateTime(reader.GetDateTime(5)),
                             });
                         }
                     }
