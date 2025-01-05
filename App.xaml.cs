@@ -28,8 +28,10 @@ namespace Hotel
             services.AddSingleton<ReservationsViewModel>();
             services.AddSingleton<RoomsViewModel>();
             services.AddSingleton<CategoriesViewModel>();
+            services.AddSingleton<GuestsViewModel>();
             services.AddSingleton<INavigationService, NavigationService>();
             services.AddSingleton<ICategoriesRepository, CategoriesRepository>();
+            services.AddSingleton<IGuestsRepository, GuestsRepository>();
 
             services.AddSingleton<Func<Type, ViewModel>>(serviceProvider =>
                 viewModelType => (ViewModel)serviceProvider.GetRequiredService(viewModelType));

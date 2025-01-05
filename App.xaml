@@ -20,5 +20,9 @@
         <DataTemplate DataType="{x:Type viewmodel:CategoriesViewModel}">
             <view:CategoriesView/>
         </DataTemplate>
+
+        <DataTemplate DataType="{x:Type viewmodel:GuestsViewModel}">
+            <view:GuestsView/>
+        </DataTemplate>
     </Application.Resources>
 </Application>
