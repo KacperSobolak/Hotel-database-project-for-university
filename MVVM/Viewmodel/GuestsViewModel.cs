@@ -53,7 +53,28 @@ namespace Hotel.MVVM.Viewmodel
 
         private void EditGuest(object parameter)
         {
-            throw new NotImplementedException();
+            var guestToEdit = parameter as Guest;
+            if (guestToEdit == null)
+                return;
+
+            var dialog = new GuestPopUpView()
+            {
+                DataContext = new PopUpViewModel<Guest>("Edytowanie gościa", "Edytuj", new Guest(guestToEdit))
+            };
+
+            if (dialog.ShowDialog() == true)
+            {
+                var viewModel = dialog.DataContext as PopUpViewModel<Guest>;
+                var updatedGuest = viewModel?.Element;
+
+                if (updatedGuest != null)
+                {
+                    _guestsRepository.UpdateGuest(updatedGuest);
+
+                    var index = Guests.IndexOf(guestToEdit);
+                    Guests[index] = updatedGuest;
+                }
+            }
         }
     }
 }

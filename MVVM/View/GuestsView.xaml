@@ -14,11 +14,20 @@
         <ListView Grid.Row ="0" ItemsSource="{Binding Guests}" Margin="10">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}" Width="150"/>
-                    <GridViewColumn Header="Surname" DisplayMemberBinding="{Binding Surname}" Width="150"/>
-                    <GridViewColumn Header="Phone" DisplayMemberBinding="{Binding Phone}" Width="120"/>
-                    <GridViewColumn Header="Email" DisplayMemberBinding="{Binding Email}" Width="200"/>
-                    <GridViewColumn Header="Date of Birth" DisplayMemberBinding="{Binding DateOfBirth}" Width="150"/>
+                    <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}" Width="Auto"/>
+                    <GridViewColumn Header="Surname" DisplayMemberBinding="{Binding Surname}" Width="Auto"/>
+                    <GridViewColumn Header="Phone" DisplayMemberBinding="{Binding Phone}" Width="Auto"/>
+                    <GridViewColumn Header="Email" DisplayMemberBinding="{Binding Email}" Width="Auto"/>
+                    <GridViewColumn Header="Date of Birth" DisplayMemberBinding="{Binding DateOfBirth}" Width="Auto"/>
+                    <GridViewColumn Header="Functions" Width="Auto">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button Content="Edytuj"
+                                        Command="{Binding DataContext.EditGuestCommand, RelativeSource={RelativeSource AncestorType=ListView}}"
+                                        CommandParameter="{Binding}" />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
                 </GridView>
             </ListView.View>
         </ListView>
