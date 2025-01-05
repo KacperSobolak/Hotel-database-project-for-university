@@ -43,6 +43,34 @@ namespace Hotel.Repositories
             return categories;
         }
 
+        public Category GetCategoryById(int id)
+        {
+            var category = new Category();
+
+            using (var connection = new NpgsqlConnection(_connectionString))
+            {
+                connection.Open();
+                string query = "SELECT * FROM project.room_categories WHERE id = @id";
+
+                using (var command = new NpgsqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@id", id);
+
+                    using (var reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            category.Id = reader.GetInt32(0);
+                            category.Name = reader.GetString(1);
+                            category.Description = reader.GetString(2);
+                            category.PricePerAdultPerNight = reader.GetDouble(3);
+                        }
+                    }
+                }
+            }
+            return category;
+        }
+
         public int AddCategory(Category category)
         {
             int id = -1;
