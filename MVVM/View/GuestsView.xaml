@@ -7,7 +7,11 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-        <ListView ItemsSource="{Binding Guests}" Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+        </Grid.RowDefinitions>
+        <ListView Grid.Row ="0" ItemsSource="{Binding Guests}" Margin="10">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}" Width="150"/>
@@ -18,5 +22,8 @@
                 </GridView>
             </ListView.View>
         </ListView>
+
+        <Button Grid.Row="1" Content="Dodaj gościa" Command="{Binding AddGuestCommand}" Height="40" FontSize="20" Width="300" Margin="0, 10, 0, 10"/>
+
     </Grid>
 </UserControl>

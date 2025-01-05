@@ -14,5 +14,17 @@ namespace Hotel.MVVM.Model
         public string Phone { get; set; }
         public string? Email { get; set; }
         public DateTime DateOfBirth { get; set; }
+
+        public Guest() { }
+
+        public Guest(Guest other)
+        {
+            Id = other.Id;
+            Name = other.Name;
+            Surname = other.Surname;
+            Phone = other.Phone;
+            Email = other.Email;
+            DateOfBirth = other.DateOfBirth;
+        }
     }
 }

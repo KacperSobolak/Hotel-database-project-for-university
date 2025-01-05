@@ -55,7 +55,7 @@ namespace Hotel.Repositories
             using (var connection = new NpgsqlConnection(_connectionString))
             {
                 connection.Open();
-                string query = "INSERT INTO project.guests (name, surname, phone, email, date_of_birth) VALUES (@name, @surname, @phone, @email, @date_of_birth) returning id";
+                string query = "INSERT INTO project.guests (name, surname, phone_number, email, date_of_birth) VALUES (@name, @surname, @phone, @email, @date_of_birth) returning id";
 
                 using (var command = new NpgsqlCommand(query, connection))
                 {
@@ -75,7 +75,7 @@ namespace Hotel.Repositories
             using (var connection = new NpgsqlConnection(_connectionString))
             {
                 connection.Open();
-                string query = "UPDATE project.guests SET name = @name, surname = @surname, phone = @phone, email = @email, date_of_birth = @date_of_birth WHERE id = @id";
+                string query = "UPDATE project.guests SET name = @name, surname = @surname, phone_number = @phone, email = @email, date_of_birth = @date_of_birth WHERE id = @id";
 
                 using (var command = new NpgsqlCommand(query, connection))
                 {
