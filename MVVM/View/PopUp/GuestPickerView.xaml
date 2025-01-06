@@ -1,0 +1,28 @@
+﻿<Window x:Class="Hotel.MVVM.View.PopUp.GuestPickerView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Hotel.MVVM.View.PopUp"
+        mc:Ignorable="d"
+        Title="GuestPickerView" Height="450" Width="800">
+    <Grid>
+        <DataGrid ItemsSource="{Binding Guests}" AutoGenerateColumns="False" IsReadOnly="True">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="*" />
+                <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="*" />
+                <DataGridTextColumn Header="Surname" Binding="{Binding Surname}" Width="*" />
+                <DataGridTextColumn Header="Phone" Binding="{Binding Phone}" Width="*" />
+                <DataGridTextColumn Header="Email" Binding="{Binding Email}" Width="*" />
+                <DataGridTextColumn Header="Date of Birth" Binding="{Binding DateOfBirth}" Width="*" />
+                <DataGridTemplateColumn Header="Pick">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Content="Pick" Command="{Binding DataContext.PickGuestCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}" CommandParameter="{Binding}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</Window>
