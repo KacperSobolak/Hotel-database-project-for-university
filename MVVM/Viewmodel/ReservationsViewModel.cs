@@ -16,15 +16,17 @@ namespace Hotel.MVVM.Viewmodel
     {
         private readonly IReservationRepository _reservationRepository;
         private readonly IGuestsRepository _guestsRepository;
+        private readonly IRoomRepository _roomRepository;
         public ObservableCollection<Reservation> Reservations { get; set; }
 
         public RelayCommand AddReservationCommand { get; set; }
         public RelayCommand EditReservationCommand { get; set; }
 
-        public ReservationsViewModel(IReservationRepository reservationRepository, IGuestsRepository guestsRepository)
+        public ReservationsViewModel(IReservationRepository reservationRepository, IGuestsRepository guestsRepository, IRoomRepository roomRepository)
         {
             _reservationRepository = reservationRepository;
             _guestsRepository = guestsRepository;
+            _roomRepository = roomRepository;
             LoadReservations();
 
             AddReservationCommand = new RelayCommand(o => AddReservation(), o => true);
@@ -42,7 +44,7 @@ namespace Hotel.MVVM.Viewmodel
             var newReservation = new Reservation();
             var dialog = new ReservationPopUpView()
             {
-                DataContext = new ReservationPopUpViewModel("Dodawanie rezerwacji", "Dodaj", newReservation, _guestsRepository)
+                DataContext = new ReservationPopUpViewModel("Dodawanie rezerwacji", "Dodaj", newReservation, _guestsRepository, _roomRepository)
             };
 
             if (dialog.ShowDialog() == true)
@@ -67,7 +69,7 @@ namespace Hotel.MVVM.Viewmodel
 
             var dialog = new ReservationPopUpView()
             {
-                DataContext = new ReservationPopUpViewModel("Edytowanie rezerwacji", "Edytuj", new Reservation(reservationToEdit), _guestsRepository)
+                DataContext = new ReservationPopUpViewModel("Edytowanie rezerwacji", "Edytuj", new Reservation(reservationToEdit), _guestsRepository, _roomRepository)
             };
 
             if (dialog.ShowDialog() == true)

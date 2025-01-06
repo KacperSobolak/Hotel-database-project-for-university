@@ -1,0 +1,26 @@
+﻿<Window x:Class="Hotel.MVVM.View.PopUp.RoomPickerView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Hotel.MVVM.View.PopUp"
+        mc:Ignorable="d"
+        Title="RoomPickerView" Height="450" Width="800">
+    <Grid>
+        <DataGrid ItemsSource="{Binding Rooms}" AutoGenerateColumns="False" IsReadOnly="True">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="*" />
+                <DataGridTextColumn Header="Room Number" Binding="{Binding RoomNumber}" Width="*" />
+                <DataGridTextColumn Header="Category" Binding="{Binding CategoryName}" Width="*" />
+                <DataGridTextColumn Header="Max Adults" Binding="{Binding MaxAdults}" Width="*" />
+                <DataGridTemplateColumn Header="Pick">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Content="Pick" Command="{Binding DataContext.PickRoomCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}" CommandParameter="{Binding}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</Window>

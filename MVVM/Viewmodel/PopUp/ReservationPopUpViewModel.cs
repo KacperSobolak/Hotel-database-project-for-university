@@ -15,8 +15,10 @@ namespace Hotel.MVVM.Viewmodel.PopUp
     internal class ReservationPopUpViewModel : ViewModel
     {
         private readonly IGuestsRepository _guestRepository;
+        private readonly IRoomRepository _roomRepository;
         private Reservation _reservation;
         private string _guestName;
+        private string _roomNumber;
         private string _validationError;
         private string _buttonName;
         private string _windowName;
@@ -37,6 +39,16 @@ namespace Hotel.MVVM.Viewmodel.PopUp
             set
             {
                 _guestName = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public string RoomNumber
+        {
+            get => _roomNumber;
+            set
+            {
+                _roomNumber = value;
                 OnPropertyChanged();
             }
         }
@@ -74,18 +86,22 @@ namespace Hotel.MVVM.Viewmodel.PopUp
         public RelayCommand ConfirmCommand { get; set; }
         public RelayCommand CancelCommand { get; set; }
         public RelayCommand PickGuestCommand { get; set; }
+        public RelayCommand PickRoomCommand { get; set; }
 
-        public ReservationPopUpViewModel(string windowName, string buttonName, Reservation reservation, IGuestsRepository guestRepository)
+        public ReservationPopUpViewModel(string windowName, string buttonName, Reservation reservation, IGuestsRepository guestRepository, IRoomRepository roomRepository)
         {
             WindowName = windowName;
             ButtonName = buttonName;
             Reservation = reservation;
             _guestRepository = guestRepository;
+            _roomRepository = roomRepository;
             GuestName = reservation.Guest != null ? $"{reservation.Guest.Name} {reservation.Guest.Surname}" : "Nie wybrano";
+            RoomNumber = reservation.Room != null ? reservation.Room.RoomNumber.ToString() : "Nie wybrano";
 
             ConfirmCommand = new RelayCommand(Confirm, o => ValidateAndConfirm());
             CancelCommand = new RelayCommand(Cancel, o => true);
             PickGuestCommand = new RelayCommand(o => PickGuest(), o => true);
+            PickRoomCommand = new RelayCommand(o => PickRoom(), o => true);
         }
 
         private void PickGuest()
@@ -104,6 +120,26 @@ namespace Hotel.MVVM.Viewmodel.PopUp
                 {
                     Reservation.Guest = guest;
                     GuestName = $"{guest.Name} {guest.Surname}";
+                }
+            }
+        }
+
+        private void PickRoom()
+        {
+            var dialog = new RoomPickerView()
+            {
+                DataContext = new RoomPickerViewModel(_roomRepository)
+            };
+
+            if (dialog.ShowDialog() == true)
+            {
+                var viewModel = dialog.DataContext as RoomPickerViewModel;
+                var room = viewModel?.SelectedRoom;
+
+                if (room != null)
+                {
+                    Reservation.Room = room;
+                    RoomNumber = room.RoomNumber.ToString();
                 }
             }
         }
