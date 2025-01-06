@@ -62,7 +62,7 @@ namespace Hotel.MVVM.Viewmodel
 
             var dialog = new RoomPopUpView()
             {
-                DataContext = new RoomPopUpViewModel("Edycja pokoju", "Zapisz", roomToEdit, _categoryRepository.GetCategories())
+                DataContext = new RoomPopUpViewModel("Edycja pokoju", "Zapisz", new Room(roomToEdit), _categoryRepository.GetCategories())
             };
 
             if (dialog.ShowDialog() == true)

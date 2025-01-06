@@ -13,6 +13,17 @@ namespace Hotel.MVVM.Model
         public int CategoryId { get; set; }   
         public int MaxAdults { get; set; }          
 
-        public string CategoryName { get; set; }     
+        public string CategoryName { get; set; }
+
+        public Room() { }
+
+        public Room(Room other)
+        {
+            Id = other.Id;
+            RoomNumber = other.RoomNumber;
+            CategoryId = other.CategoryId;
+            MaxAdults = other.MaxAdults;
+            CategoryName = other.CategoryName;
+        }
     }
 }
