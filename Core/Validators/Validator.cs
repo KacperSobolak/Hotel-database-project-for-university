@@ -19,10 +19,10 @@ namespace Hotel.Core.Validators
             {
                 return GuestValidator.Validate(guest);
             }
-            //else if (entity is Reservation reservation)
-            //{
-            //    return ReservationValidator.Validate(reservation);
-            //}
+            else if (entity is Reservation reservation)
+            {
+                return ReservationValidator.Validate(reservation);
+            }
             else if (entity is Room room)
             {
                 return RoomValidator.Validate(room);

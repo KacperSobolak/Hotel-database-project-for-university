@@ -33,7 +33,14 @@ namespace Hotel.MVVM.Viewmodel.PopUp
         {
             var guest = parameter as Guest;
             SelectedGuest = guest;
-            MessageBox.Show($"Guest {guest.Name} {guest.Surname} has been picked.", "Guest Picked", MessageBoxButton.OK, MessageBoxImage.Information);
+            var window = Application.Current.Windows.OfType<Window>()
+                .FirstOrDefault(w => w.DataContext == this);
+
+            if (window != null)
+            {
+                window.DialogResult = true;
+                window.Close();
+            }
         }
     }
 }
