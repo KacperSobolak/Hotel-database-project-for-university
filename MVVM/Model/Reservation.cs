@@ -10,10 +10,8 @@ namespace Hotel.MVVM.Model
     {
         public int Id { get; set; } 
 
-        public int RoomId { get; set; }
         public Room? Room { get; set; } 
 
-        public int GuestId { get; set; }
         public Guest? Guest { get; set; }  
         public int TotalPrice { get; set; }
 
@@ -25,9 +23,7 @@ namespace Hotel.MVVM.Model
         public Reservation(Reservation other)
         {
             Id = other.Id;
-            RoomId = other.RoomId;
             Room = other.Room;
-            GuestId = other.GuestId;
             Guest = other.Guest;
             TotalPrice = other.TotalPrice;
             StartDate = other.StartDate;

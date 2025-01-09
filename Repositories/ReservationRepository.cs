@@ -39,8 +39,6 @@ namespace Hotel.Repositories
                         reservations.Add(new Reservation
                         {
                             Id = reader.GetInt32(reader.GetOrdinal("id")),
-                            RoomId = reader.GetInt32(reader.GetOrdinal("room_id")),
-                            GuestId = reader.GetInt32(reader.GetOrdinal("guest_id")),
                             StartDate = DateOnly.FromDateTime(reader.GetDateTime(reader.GetOrdinal("start_date"))), 
                             EndDate = DateOnly.FromDateTime(reader.GetDateTime(reader.GetOrdinal("end_date"))),  
                             TotalPrice = reader.GetInt32(reader.GetOrdinal("total_price")),
@@ -71,23 +69,14 @@ namespace Hotel.Repositories
             {
                 connection.Open();
 
-                var cmdRoom = new NpgsqlCommand("SELECT rc.price_per_night_per_adult FROM project.rooms ro " +
-                                                "JOIN project.room_categories rc ON ro.category_id = rc.id " +
-                                                "WHERE ro.id = @room_id", connection);
-                cmdRoom.Parameters.AddWithValue("room_id", reservation.RoomId);
-
-                var pricePerNightPerAdult = Convert.ToDecimal(cmdRoom.ExecuteScalar());
-                var numberOfNights = (reservation.EndDate.DayNumber - reservation.StartDate.DayNumber);
-                var totalPrice = pricePerNightPerAdult * numberOfNights * reservation.Room.MaxAdults;  
-
                 var cmd = new NpgsqlCommand("INSERT INTO project.reservations (room_id, guest_id, start_date, end_date, total_price) " +
                                             "VALUES (@room_id, @guest_id, @start_date, @end_date, @total_price) RETURNING id", connection);
 
-                cmd.Parameters.AddWithValue("room_id", reservation.RoomId);
-                cmd.Parameters.AddWithValue("guest_id", reservation.GuestId);
+                cmd.Parameters.AddWithValue("room_id", reservation.Room.Id);
+                cmd.Parameters.AddWithValue("guest_id", reservation.Guest.Id);
                 cmd.Parameters.AddWithValue("start_date", reservation.StartDate.ToDateTime(TimeOnly.MinValue));
                 cmd.Parameters.AddWithValue("end_date", reservation.EndDate.ToDateTime(TimeOnly.MinValue));
-                cmd.Parameters.AddWithValue("total_price", totalPrice);
+                cmd.Parameters.AddWithValue("total_price", reservation.TotalPrice);
 
                 var newId = (int)cmd.ExecuteScalar();  
                 return newId;
@@ -100,25 +89,16 @@ namespace Hotel.Repositories
             {
                 connection.Open();
 
-                var cmdRoom = new NpgsqlCommand("SELECT rc.price_per_night_per_adult FROM project.rooms ro " +
-                                                "JOIN project.room_categories rc ON ro.category_id = rc.id " +
-                                                "WHERE ro.id = @room_id", connection);
-                cmdRoom.Parameters.AddWithValue("room_id", reservation.RoomId);
-
-                var pricePerNightPerAdult = Convert.ToDecimal(cmdRoom.ExecuteScalar());
-                var numberOfNights = (reservation.EndDate.DayNumber - reservation.StartDate.DayNumber);
-                var totalPrice = pricePerNightPerAdult * numberOfNights * reservation.Room.MaxAdults; 
-
                 var cmd = new NpgsqlCommand("UPDATE project.reservations SET room_id = @room_id, guest_id = @guest_id, " +
                                             "start_date = @start_date, end_date = @end_date, total_price = @total_price " +
                                             "WHERE id = @id", connection);
 
                 cmd.Parameters.AddWithValue("id", reservation.Id);
-                cmd.Parameters.AddWithValue("room_id", reservation.RoomId);
-                cmd.Parameters.AddWithValue("guest_id", reservation.GuestId);
+                cmd.Parameters.AddWithValue("room_id", reservation.Room.Id);
+                cmd.Parameters.AddWithValue("guest_id", reservation.Guest.Id);
                 cmd.Parameters.AddWithValue("start_date", reservation.StartDate.ToDateTime(TimeOnly.MinValue));
                 cmd.Parameters.AddWithValue("end_date", reservation.EndDate.ToDateTime(TimeOnly.MinValue));
-                cmd.Parameters.AddWithValue("total_price", totalPrice);
+                cmd.Parameters.AddWithValue("total_price", reservation.TotalPrice);
 
                 cmd.ExecuteNonQuery();
             }
