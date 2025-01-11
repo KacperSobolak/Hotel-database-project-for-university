@@ -41,7 +41,7 @@ namespace Hotel.Repositories
                             Id = reader.GetInt32(reader.GetOrdinal("id")),
                             StartDate = DateOnly.FromDateTime(reader.GetDateTime(reader.GetOrdinal("start_date"))), 
                             EndDate = DateOnly.FromDateTime(reader.GetDateTime(reader.GetOrdinal("end_date"))),  
-                            TotalPrice = reader.GetInt32(reader.GetOrdinal("total_price")),
+                            TotalPrice = reader.GetDouble(reader.GetOrdinal("total_price")),
                             Room = new Room
                             {
                                 Id = reader.GetInt32(reader.GetOrdinal("room_id")),
@@ -81,6 +81,41 @@ namespace Hotel.Repositories
                 var newId = (int)cmd.ExecuteScalar();  
                 return newId;
             }
+        }
+
+        public int FindAvailableRoom(Reservation reservation, Category category, int numberOfAdults)
+        {
+            using var connection = new NpgsqlConnection(_connectionString);
+            connection.Open();
+
+            string query = @"
+                SELECT room_id, room_number, category_name, max_adults, price_per_night, total_price
+                FROM project.find_available_room(@start_date, @end_date, @category_id_param, @number_of_adults);";
+
+            using var command = new NpgsqlCommand(query, connection);
+            command.Parameters.AddWithValue("@start_date", reservation.StartDate);
+            command.Parameters.AddWithValue("@end_date", reservation.EndDate);
+            command.Parameters.AddWithValue("@category_id_param", category.Id);
+            command.Parameters.AddWithValue("@number_of_adults", numberOfAdults);
+
+            using var reader = command.ExecuteReader();
+
+            if (reader.Read())
+            {
+                reservation.Room = new Room
+                {
+                    Id = reader.GetInt32(reader.GetOrdinal("room_id")),
+                    RoomNumber = reader.GetInt32(reader.GetOrdinal("room_number")),
+                    CategoryId = category.Id,
+                    CategoryName = reader.GetString(reader.GetOrdinal("category_name")),
+                    MaxAdults = reader.GetInt32(reader.GetOrdinal("max_adults"))
+                };
+
+                reservation.TotalPrice = reader.GetDouble(reader.GetOrdinal("total_price"));
+                return reservation.Room.Id;
+            }
+
+            return -1;
         }
 
         public void UpdateReservation(Reservation reservation)

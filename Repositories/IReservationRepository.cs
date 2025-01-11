@@ -11,6 +11,7 @@ namespace Hotel.Repositories
     {
         IEnumerable<Reservation> GetAllReservations();
         int AddReservation(Reservation reservation);
+        int FindAvailableRoom(Reservation reservation, Category category, int numberOfAdults);
         void UpdateReservation(Reservation reservation);
         void DeleteReservation(int id);
     }

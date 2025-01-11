@@ -13,7 +13,7 @@ namespace Hotel.MVVM.Model
         public Room? Room { get; set; } 
 
         public Guest? Guest { get; set; }  
-        public int TotalPrice { get; set; }
+        public double TotalPrice { get; set; }
 
         public DateOnly StartDate { get; set; }
         public DateOnly EndDate { get; set; }

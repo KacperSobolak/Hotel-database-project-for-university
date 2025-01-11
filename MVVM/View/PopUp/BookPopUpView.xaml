@@ -1,0 +1,24 @@
+﻿<Window x:Class="Hotel.MVVM.View.PopUp.BookPopUpView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Hotel.MVVM.View.PopUp"
+        mc:Ignorable="d"
+        Title="BookPopUpView" Height="450" Width="800">
+    <Grid>
+        <StackPanel Margin="20">
+            <TextBlock Text="Potwierdzenie rezerwacji" FontSize="20" FontWeight="Bold" Margin="0,0,0,20"/>
+
+            <TextBlock Text="{Binding RoomDetails}" FontSize="16" Margin="0,0,0,10"/>
+            <StackPanel Orientation="Horizontal">
+                <Button Content="Zatwierdź" Width="100" Height="40" Margin="0,10" HorizontalAlignment="Left" Command="{Binding ConfirmCommand}"
+                        CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}" />
+
+                <Button Content="Anuluj" Width="100" Height="40" Margin="0,10" HorizontalAlignment="Left" Command="{Binding CancelCommand}"
+                        CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}" />
+            </StackPanel>
+
+        </StackPanel>
+    </Grid>
+</Window>

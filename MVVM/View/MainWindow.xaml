@@ -34,6 +34,10 @@
                     FontSize="25"
                     Command="{Binding NavigateToGuestsCommand}"/>
 
+            <Button Content="Book"
+                    FontSize="25"
+                    Command="{Binding NavigateToBookCommand}"/>
+
         </StackPanel>
 
         <ContentControl Grid.Row="1" Content="{Binding NavigationService.CurrentView}">
