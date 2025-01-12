@@ -83,6 +83,55 @@ namespace Hotel.Repositories
             }
         }
 
+        public Reservation GetReservation(int id)
+        {
+            Reservation reservation = null;
+
+            using (var connection = new NpgsqlConnection(_connectionString))
+            {
+                connection.Open();
+                var cmd = new NpgsqlCommand("SELECT r.id, r.room_id, r.guest_id, r.start_date, r.end_date, r.total_price, " +
+                                            "ro.room_number, ro.max_adults, rc.name AS category_name, rc.price_per_night_per_adult, " +
+                                            "g.name AS guest_name, g.surname AS guest_surname " +
+                                            "FROM project.reservations r " +
+                                            "JOIN project.rooms ro ON r.room_id = ro.id " +
+                                            "JOIN project.room_categories rc ON ro.category_id = rc.id " +
+                                            "JOIN project.guests g ON r.guest_id = g.id " +
+                                            "WHERE r.id = @id", connection);
+
+                cmd.Parameters.AddWithValue("@id", id);
+
+                using (var reader = cmd.ExecuteReader())
+                {
+                    if (reader.Read())
+                    {
+                        reservation = new Reservation
+                        {
+                            Id = reader.GetInt32(reader.GetOrdinal("id")),
+                            StartDate = DateOnly.FromDateTime(reader.GetDateTime(reader.GetOrdinal("start_date"))),
+                            EndDate = DateOnly.FromDateTime(reader.GetDateTime(reader.GetOrdinal("end_date"))),
+                            TotalPrice = reader.GetDouble(reader.GetOrdinal("total_price")),
+                            Room = new Room
+                            {
+                                Id = reader.GetInt32(reader.GetOrdinal("room_id")),
+                                RoomNumber = reader.GetInt32(reader.GetOrdinal("room_number")),
+                                MaxAdults = reader.GetInt32(reader.GetOrdinal("max_adults")),
+                                CategoryName = reader.GetString(reader.GetOrdinal("category_name"))
+                            },
+                            Guest = new Guest
+                            {
+                                Id = reader.GetInt32(reader.GetOrdinal("guest_id")),
+                                Name = reader.GetString(reader.GetOrdinal("guest_name")),
+                                Surname = reader.GetString(reader.GetOrdinal("guest_surname"))
+                            }
+                        };
+                    }
+                }
+            }
+
+            return reservation;
+        }
+
         public int FindAvailableRoom(Reservation reservation, Category category, int numberOfAdults)
         {
             using var connection = new NpgsqlConnection(_connectionString);
@@ -187,6 +236,24 @@ namespace Hotel.Repositories
                 cmd.ExecuteNonQuery();
             }
         }
+
+        public void DeleteAllAmenitiesForReservation(int reservationId)
+        {
+            const string query = @"
+        DELETE FROM project.reservation_amenities
+        WHERE reservation_id = @ReservationId";
+
+            using (var connection = new NpgsqlConnection(_connectionString))
+            {
+                connection.Open();
+                using (var command = new NpgsqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@ReservationId", reservationId);
+                    command.ExecuteNonQuery();
+                }
+            }
+        }
+
 
         public void DeleteReservation(int id)
         {

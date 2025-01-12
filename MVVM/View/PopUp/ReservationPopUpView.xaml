@@ -25,6 +25,8 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
         <TextBlock Text="Room:" Grid.Row="0" Margin="0,0,0,5" />
@@ -59,9 +61,12 @@
         <TextBlock Text="End Date:" Grid.Row="8" Margin="0,10,0,5" />
         <DatePicker SelectedDate="{Binding Reservation.EndDate, Converter={StaticResource DateOnlyConverter}}" Grid.Row="9" />
 
-        <TextBlock Text="{Binding ValidationError}" Foreground="Red" FontWeight="Bold" Grid.Row="10" Margin="0,10,0,0" TextWrapping="Wrap" />
+        <TextBlock Text="Edytuj udogodnienia:" Grid.Row="10" Margin="0,10,0,5" />
+        <Button Grid.Row="11" Width="100"  HorizontalAlignment="Left" Content="Edytuj" Command="{Binding EditAmenitiesCommand}"/>
 
-        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Grid.Row="11" Margin="0,20,0,0">
+        <TextBlock Text="{Binding ValidationError}" Foreground="Red" FontWeight="Bold" Grid.Row="12" Margin="0,10,0,0" TextWrapping="Wrap" />
+
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Grid.Row="13" Margin="0,20,0,0">
             <Button Content="Cancel" Command="{Binding CancelCommand}" 
                     CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}" 
                     Margin="0,0,10,0" />

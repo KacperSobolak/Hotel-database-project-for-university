@@ -18,17 +18,19 @@ namespace Hotel.MVVM.Viewmodel
         private readonly IReservationRepository _reservationRepository;
         private readonly IGuestsRepository _guestsRepository;
         private readonly IRoomRepository _roomRepository;
+        private readonly IAmenitiesRepository _amenitiesRepository;
         public ObservableCollection<Reservation> Reservations { get; set; }
 
         public RelayCommand AddReservationCommand { get; set; }
         public RelayCommand EditReservationCommand { get; set; }
         public RelayCommand ShowAmenitiesCommand { get; set; }
 
-        public ReservationsViewModel(IReservationRepository reservationRepository, IGuestsRepository guestsRepository, IRoomRepository roomRepository)
+        public ReservationsViewModel(IReservationRepository reservationRepository, IGuestsRepository guestsRepository, IRoomRepository roomRepository, IAmenitiesRepository amenitiesRepository)
         {
             _reservationRepository = reservationRepository;
             _guestsRepository = guestsRepository;
             _roomRepository = roomRepository;
+            _amenitiesRepository = amenitiesRepository;
             LoadReservations();
 
             AddReservationCommand = new RelayCommand(o => AddReservation(), o => true);
@@ -70,7 +72,7 @@ namespace Hotel.MVVM.Viewmodel
             var newReservation = new Reservation();
             var dialog = new ReservationPopUpView()
             {
-                DataContext = new ReservationPopUpViewModel("Dodawanie rezerwacji", "Dodaj", newReservation, _guestsRepository, _roomRepository)
+                DataContext = new ReservationPopUpViewModel("Dodawanie rezerwacji", "Dodaj", newReservation, _guestsRepository, _roomRepository, _reservationRepository, _amenitiesRepository)
             };
 
             if (dialog.ShowDialog() == true)
@@ -95,7 +97,7 @@ namespace Hotel.MVVM.Viewmodel
 
             var dialog = new ReservationPopUpView()
             {
-                DataContext = new ReservationPopUpViewModel("Edytowanie rezerwacji", "Edytuj", new Reservation(reservationToEdit), _guestsRepository, _roomRepository)
+                DataContext = new ReservationPopUpViewModel("Edytowanie rezerwacji", "Edytuj", new Reservation(reservationToEdit), _guestsRepository, _roomRepository, _reservationRepository, _amenitiesRepository)
             };
 
             if (dialog.ShowDialog() == true)
