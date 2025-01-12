@@ -28,5 +28,9 @@
         <DataTemplate DataType="{x:Type viewmodel:BookViewModel}">
             <view:BookView/>
         </DataTemplate>
+
+        <DataTemplate DataType="{x:Type viewmodel:AmenitiesViewModel}">
+            <view:AmenitiesView/>
+        </DataTemplate>
     </Application.Resources>
 </Application>

@@ -23,6 +23,7 @@ namespace Hotel.MVVM.Viewmodel
         public RelayCommand NavigateToCategoriesCommand { get; set; }
         public RelayCommand NavigateToGuestsCommand { get; set; }
         public RelayCommand NavigateToBookCommand { get; set; }
+        public RelayCommand NavigateToAmenitiesCommand { get; set; }
 
         public MainViewModel(INavigationService navigationService)
         {
@@ -39,6 +40,8 @@ namespace Hotel.MVVM.Viewmodel
                 new RelayCommand(o => { NavigationService.NavigateTo<GuestsViewModel>(); }, o => true);
             NavigateToBookCommand =
                 new RelayCommand(o => { NavigationService.NavigateTo<BookViewModel>(); }, o => true);
+            NavigateToAmenitiesCommand =
+                new RelayCommand(o => { NavigationService.NavigateTo<AmenitiesViewModel>(); }, o => true);
         }
     }
 }

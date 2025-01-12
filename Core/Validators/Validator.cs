@@ -27,6 +27,10 @@ namespace Hotel.Core.Validators
             {
                 return RoomValidator.Validate(room);
             }
+            else if (entity is Amenities amenity)
+            {
+                return AmenitieValidator.Validate(amenity);
+            }
             else
             {
                 throw new ArgumentException("Invalid entity type");

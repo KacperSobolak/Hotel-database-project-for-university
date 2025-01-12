@@ -26,7 +26,7 @@
                     FontSize="25"
                     Command="{Binding NavigateToRoomsCommand}"/>
 
-            <Button Content="Categories"
+            <Button Content="Amenities"
                     FontSize="25"
                     Command="{Binding NavigateToCategoriesCommand}"/>
 
@@ -37,6 +37,10 @@
             <Button Content="Book"
                     FontSize="25"
                     Command="{Binding NavigateToBookCommand}"/>
+
+            <Button Content="Amenities"
+                    FontSize="25"
+                    Command="{Binding NavigateToAmenitiesCommand}"/>
 
         </StackPanel>
 
