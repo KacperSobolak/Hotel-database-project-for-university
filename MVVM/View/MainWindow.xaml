@@ -26,7 +26,7 @@
                     FontSize="25"
                     Command="{Binding NavigateToRoomsCommand}"/>
 
-            <Button Content="Amenities"
+            <Button Content="Kategorie"
                     FontSize="25"
                     Command="{Binding NavigateToCategoriesCommand}"/>
 
