@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using Hotel.Core;
 using Hotel.MVVM.Model;
 using Hotel.MVVM.View.PopUp;
@@ -21,6 +22,7 @@ namespace Hotel.MVVM.Viewmodel
 
         public RelayCommand AddReservationCommand { get; set; }
         public RelayCommand EditReservationCommand { get; set; }
+        public RelayCommand ShowAmenitiesCommand { get; set; }
 
         public ReservationsViewModel(IReservationRepository reservationRepository, IGuestsRepository guestsRepository, IRoomRepository roomRepository)
         {
@@ -31,12 +33,36 @@ namespace Hotel.MVVM.Viewmodel
 
             AddReservationCommand = new RelayCommand(o => AddReservation(), o => true);
             EditReservationCommand = new RelayCommand(EditReservation, o => true);
+            ShowAmenitiesCommand = new RelayCommand(ShowAmenities, o => true);
         }
 
         private void LoadReservations()
         {
             var reservationList = _reservationRepository.GetAllReservations();
             Reservations = new ObservableCollection<Reservation>(reservationList);
+        }
+
+        private void ShowAmenities(object parameter)
+        {
+            var reservation = parameter as Reservation;
+            if (reservation == null)
+                return;
+
+            var amenities = _reservationRepository.GetAmenitiesForReservation(reservation.Id);
+
+            if (amenities.Any())
+            {
+                var dialog = new ShowAmenitiesView()
+                {
+                    DataContext = new ShowAmenitiesViewModel(amenities)
+                };
+
+                dialog.ShowDialog();
+            }
+            else
+            {
+                MessageBox.Show("Nie ma żadnych udogodnień");
+            }
         }
 
         private void AddReservation()

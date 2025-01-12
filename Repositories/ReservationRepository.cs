@@ -118,6 +118,55 @@ namespace Hotel.Repositories
             return -1;
         }
 
+        public IEnumerable<AmenityItem> GetAmenitiesForReservation(int reservationId)
+        {
+            const string query = @"
+        SELECT 
+            a.id AS AmenityId,
+            a.name AS Name,
+            a.description AS Description,
+            a.price_per_night AS PricePerNight,
+            ra.quantity AS Quantity
+        FROM 
+            project.reservation_amenities ra
+        INNER JOIN 
+            project.amenities a ON ra.amenity_id = a.id
+        WHERE 
+            ra.reservation_id = @ReservationId";
+
+            var amenities = new List<AmenityItem>();
+
+            using (var connection = new NpgsqlConnection(_connectionString))
+            {
+                connection.Open();
+                using (var command = new NpgsqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@ReservationId", reservationId);
+
+                    using (var reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            var amenity = new Amenities
+                            {
+                                Id = reader.GetInt32(reader.GetOrdinal("AmenityId")),
+                                Name = reader.GetString(reader.GetOrdinal("Name")),
+                                Description = reader.GetString(reader.GetOrdinal("Description")),
+                                PricePerNight = reader.GetDouble(reader.GetOrdinal("PricePerNight"))
+                            };
+
+                            var amenityItem = new AmenityItem(amenity, reader.GetInt32(reader.GetOrdinal("Quantity")));
+
+                            amenities.Add(amenityItem);
+                        }
+                    }
+                }
+            }
+
+            return amenities;
+        }
+
+
         public void UpdateReservation(Reservation reservation)
         {
             using (var connection = new NpgsqlConnection(_connectionString))
