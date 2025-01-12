@@ -1,0 +1,39 @@
+﻿<Window x:Class="Hotel.MVVM.View.PopUp.AddAmenitiesPopUpView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+        Title="AddAmenitiesPopUpView" Height="450" Width="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+        </Grid.RowDefinitions>
+        <DataGrid Grid.Row="0" ItemsSource="{Binding AmenitiesCollection}" AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Nazwa" Binding="{Binding Amenity.Name}" IsReadOnly="True" />
+
+                <DataGridTextColumn Header="Opis" Binding="{Binding Amenity.Description}" IsReadOnly="True" />
+
+                <DataGridTextColumn Header="Cena za noc" Binding="{Binding Amenity.PricePerNight}" IsReadOnly="True" />
+
+                <DataGridTemplateColumn Header="Ilość">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <xctk:IntegerUpDown Value="{Binding Quantity, UpdateSourceTrigger=PropertyChanged}" 
+                                                Minimum="0" 
+                                                Maximum="{Binding Amenity.MaxAvailablePerDay}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center">
+            <Button Width="100" Content="Anuluj" Margin="0,0,10,0" Command="{Binding ConfirmCommand}" 
+                    CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"/>
+            <Button Width="100" Content="Zapisz" Command="{Binding ConfirmCommand}" 
+                    CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"/>
+        </StackPanel>
+    </Grid>
+</Window>

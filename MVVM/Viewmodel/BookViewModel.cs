@@ -18,6 +18,7 @@ namespace Hotel.MVVM.Viewmodel
         private IReservationRepository _reservationRepository;
         private ICategoriesRepository _categoriesRepository;
         private IGuestsRepository _guestsRepository;
+        private IAmenitiesRepository _amenitiesRepository;
 
         public ObservableCollection<string> CategoriesNames { get; set; }
         private List<Category> Categories { get; set; }
@@ -91,11 +92,12 @@ namespace Hotel.MVVM.Viewmodel
         public RelayCommand FindRoomCommand { get; set; }
         public RelayCommand PickGuestCommand { get; set; }
 
-        public BookViewModel(IReservationRepository reservationRepository, ICategoriesRepository categoriesRepository, IGuestsRepository guestsRepository)
+        public BookViewModel(IReservationRepository reservationRepository, ICategoriesRepository categoriesRepository, IGuestsRepository guestsRepository, IAmenitiesRepository amenitiesRepository)
         {
             _reservationRepository = reservationRepository;
             _categoriesRepository = categoriesRepository;
             _guestsRepository = guestsRepository;
+            _amenitiesRepository = amenitiesRepository;
 
             SetUpCategories();
             SetUpDates();
@@ -158,12 +160,11 @@ namespace Hotel.MVVM.Viewmodel
             {
                 var dialog = new BookPopUpView()
                 {
-                    DataContext = new BookPopUpViewModel(reservation)
+                    DataContext = new BookPopUpViewModel(reservation, _amenitiesRepository, _reservationRepository)
                 };
 
                 if (dialog.ShowDialog() == true)
                 {
-                    _reservationRepository.AddReservation(reservation);
                     CleanFields();
                     MessageBox.Show("Dodano rezerwacje");
                 }

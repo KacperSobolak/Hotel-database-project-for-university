@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using Hotel.MVVM.Model;
 using Npgsql;
@@ -45,6 +46,39 @@ namespace Hotel.Repositories
             return amenities;
         }
 
+        public IEnumerable<Amenities> GetAmenitiesAvailableForDateRange(DateOnly startDate, DateOnly endDate)
+        {
+            var amenities = new List<Amenities>();
+
+            using (var connection = new NpgsqlConnection(_connectionString))
+            {
+                connection.Open();
+
+                using (var command = new NpgsqlCommand("SELECT * FROM project.get_available_amenities(@StartDate, @EndDate)", connection))
+                {
+                    command.Parameters.AddWithValue("@StartDate", NpgsqlTypes.NpgsqlDbType.Date, startDate);
+                    command.Parameters.AddWithValue("@EndDate", NpgsqlTypes.NpgsqlDbType.Date, endDate);
+
+                    using (var reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            amenities.Add(new Amenities
+                            {
+                                Id = reader.GetInt32(reader.GetOrdinal("amenity_id")),
+                                Name = reader.GetString(reader.GetOrdinal("name")),
+                                Description = reader.GetString(reader.GetOrdinal("description")),
+                                MaxAvailablePerDay = reader.GetInt32(reader.GetOrdinal("available_quantity")),
+                                PricePerNight = reader.GetDouble(reader.GetOrdinal("price_per_night")),
+                            });
+                        }
+                    }
+                }
+            }
+
+            return amenities;
+        }
+
         public int AddAmenities(Amenities amenities)
         {
             int id = -1;
@@ -67,6 +101,27 @@ namespace Hotel.Repositories
             }
 
             return id;
+        }
+
+        public void AddAmenityToReservation(Amenities amenity, int reservationId, int quantity, double price)
+        {
+            const string query = @"INSERT INTO project.reservation_amenities (reservation_id, amenity_id, quantity, total_price)
+                                 VALUES (@ReservationId, @AmenityId, @Quantity, @Price);";
+
+            using (var connection = new NpgsqlConnection(_connectionString)) 
+            {
+                connection.Open();
+
+                using (var command = new NpgsqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@ReservationId", reservationId);
+                    command.Parameters.AddWithValue("@AmenityId", amenity.Id);
+                    command.Parameters.AddWithValue("@Quantity", quantity);
+                    command.Parameters.AddWithValue("@Price", price);
+
+                    command.ExecuteNonQuery();
+                }
+            }
         }
 
         public void UpdateAmenities(Amenities amenities)
