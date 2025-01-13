@@ -22,6 +22,7 @@
                             <TextBlock Text="{Binding Description}"  Margin="20, 0, 0, 0"/>
                             <TextBlock Text="{Binding PricePerAdultPerNight, StringFormat=C}" Foreground="Green"  Margin="20, 0, 0, 0"/>
                             <Button Width="200" HorizontalAlignment="Left" Content="Edytuj" Command="{Binding DataContext.EditCategoryCommand, RelativeSource={RelativeSource AncestorType=UserControl}}" CommandParameter="{Binding}"  Margin="20, 0, 0, 10"/>
+                            <Button Width="200" HorizontalAlignment="Left" Content="Usuń" Command="{Binding DataContext.DeleteCategoryCommand, RelativeSource={RelativeSource AncestorType=UserControl}}" CommandParameter="{Binding}"  Margin="20, 0, 0, 10"/>
                         </StackPanel>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>

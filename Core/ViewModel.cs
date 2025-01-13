@@ -8,5 +8,6 @@ namespace Hotel.Core
 {
     public abstract class ViewModel : ObservableObject
     {
+        public virtual void OnEnter() { }
     }
 }

@@ -37,6 +37,7 @@ namespace Hotel.Services
         {
             var viewModel = _viewModelFactory.Invoke(typeof(TViewModel));
             CurrentView = viewModel;
+            viewModel.OnEnter();
         }
     }
 }

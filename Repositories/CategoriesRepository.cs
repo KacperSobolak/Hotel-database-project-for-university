@@ -110,16 +110,16 @@ namespace Hotel.Repositories
             }
         }
 
-        public void DeleteCategory(Category category)
+        public void DeleteCategory(int categoryId)
         {
             using (var connection = new NpgsqlConnection(_connectionString))
             {
                 connection.Open();
-                string query = "DELETE FROM project.room_categories WHERE category = @category";
+                string query = "DELETE FROM project.room_categories WHERE id = @Id";
 
                 using (var command = new NpgsqlCommand(query, connection))
                 {
-                    command.Parameters.AddWithValue("@category", category.Name);
+                    command.Parameters.AddWithValue("@Id", categoryId);
                     command.ExecuteNonQuery();
                 }
             }

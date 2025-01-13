@@ -13,6 +13,6 @@ namespace Hotel.Repositories
         Category GetCategoryById(int id);
         int AddCategory(Category category);
         void UpdateCategory(Category category);
-        void DeleteCategory(Category category);
+        void DeleteCategory(int categoryId);
     }
 }

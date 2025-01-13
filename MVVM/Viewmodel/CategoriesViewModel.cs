@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.Reflection.Metadata;
+using System.Windows;
 using Hotel.Core;
 using Hotel.MVVM.Model;
 using Hotel.MVVM.View.PopUp;
@@ -15,14 +16,22 @@ namespace Hotel.MVVM.Viewmodel
         public ObservableCollection<Category> Categories { get; set; }
         public RelayCommand AddCategoryCommand { get; set; }
         public RelayCommand EditCategoryCommand { get; set; }
+        public RelayCommand DeleteCategoryCommand { get; set; }
 
         public CategoriesViewModel(ICategoriesRepository categoriesRepository)
         {
             _categoriesRepository = categoriesRepository;
-            Categories = new ObservableCollection<Category>(_categoriesRepository.GetCategories());
+
+            OnEnter();
 
             AddCategoryCommand = new RelayCommand(o => AddCategory(), o => true);
             EditCategoryCommand = new RelayCommand(EditCategory, o => true);
+            DeleteCategoryCommand = new RelayCommand(DeleteCategory, o => true);
+        }
+
+        public override void OnEnter()
+        {
+            Categories = new ObservableCollection<Category>(_categoriesRepository.GetCategories());
         }
 
         private void AddCategory()
@@ -71,5 +80,19 @@ namespace Hotel.MVVM.Viewmodel
                 }
             }
         }
+
+        private void DeleteCategory(object parameter)
+        {
+            var result = MessageBox.Show("Czy chcesz usunąć kategorię, jeśli to zrobisz to zostaną usunięte również wszystkie pokoje z tej kategorii oraz rezerwacje z tych pokoi?", "Usunięcie kategorii", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            if (result == MessageBoxResult.No) return;
+
+            var categoryToDelete = parameter as Category;
+            if (categoryToDelete == null)
+                return;
+
+            _categoriesRepository.DeleteCategory(categoryToDelete.Id);
+            Categories.Remove(categoryToDelete);
+        }
+
     }
 }
