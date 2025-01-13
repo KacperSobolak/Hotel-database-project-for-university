@@ -99,11 +99,17 @@ namespace Hotel.MVVM.Viewmodel
             _guestsRepository = guestsRepository;
             _amenitiesRepository = amenitiesRepository;
 
-            SetUpCategories();
-            SetUpDates();
+            OnEnter();
 
             FindRoomCommand = new RelayCommand(o => FindRoom(), o => CanCreateReservation());
             PickGuestCommand = new RelayCommand(o => PickGuest(), o => true);
+        }
+
+        public override void OnEnter()
+        {
+
+            SetUpCategories();
+            SetUpDates();
         }
 
         private void SetUpCategories()

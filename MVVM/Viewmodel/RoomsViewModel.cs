@@ -26,10 +26,16 @@ namespace Hotel.MVVM.Viewmodel
         {
             _roomRepository = roomRepository;
             _categoryRepository = categoriesRepository;
-            Rooms = new ObservableCollection<Room>(_roomRepository.GetAllRooms());
+
+            OnEnter();
 
             AddRoomCommand = new RelayCommand(o => AddRoom(), o => true);
             EditRoomCommand = new RelayCommand(EditRoom, o => true);
+        }
+
+        public override void OnEnter()
+        {
+            Rooms = new ObservableCollection<Room>(_roomRepository.GetAllRooms());
         }
 
         private void AddRoom()

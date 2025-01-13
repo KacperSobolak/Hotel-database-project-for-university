@@ -24,10 +24,16 @@ namespace Hotel.MVVM.Viewmodel
         public GuestsViewModel(IGuestsRepository guestsRepository)
         {
             _guestsRepository = guestsRepository;
-            Guests = new ObservableCollection<Guest>(_guestsRepository.GetGuests());
+
+            OnEnter();
 
             AddGuestCommand = new RelayCommand(o => AddGuest(), o => true);
             EditGuestCommand = new RelayCommand(EditGuest, o => true);
+        }
+
+        public override void OnEnter()
+        {
+            Guests = new ObservableCollection<Guest>(_guestsRepository.GetGuests());
         }
 
         private void AddGuest()

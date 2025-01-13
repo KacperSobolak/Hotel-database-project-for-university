@@ -23,10 +23,16 @@ namespace Hotel.MVVM.Viewmodel
         public AmenitiesViewModel(IAmenitiesRepository amenitiesRepository)
         {
             _amenitiesRepository = amenitiesRepository;
-            Amenities = new ObservableCollection<Amenities>(_amenitiesRepository.GetAllAmenities());
+                
+            OnEnter();
 
             AddAmenityCommand = new RelayCommand(o => AddAmenity(), o => true);
             EditAmenityCommand = new RelayCommand(EditAmenity, o => true);
+        }
+
+        public override void OnEnter()
+        {
+            Amenities = new ObservableCollection<Amenities>(_amenitiesRepository.GetAllAmenities());
         }
 
         private void AddAmenity()

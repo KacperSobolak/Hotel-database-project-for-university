@@ -31,11 +31,17 @@ namespace Hotel.MVVM.Viewmodel
             _guestsRepository = guestsRepository;
             _roomRepository = roomRepository;
             _amenitiesRepository = amenitiesRepository;
-            LoadReservations();
+
+            OnEnter();
 
             AddReservationCommand = new RelayCommand(o => AddReservation(), o => true);
             EditReservationCommand = new RelayCommand(EditReservation, o => true);
             ShowAmenitiesCommand = new RelayCommand(ShowAmenities, o => true);
+        }
+
+        public override void OnEnter()
+        {
+            LoadReservations();
         }
 
         private void LoadReservations()
