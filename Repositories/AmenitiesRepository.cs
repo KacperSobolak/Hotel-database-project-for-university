@@ -145,7 +145,7 @@ namespace Hotel.Repositories
             }
         }
 
-        public void DeleteAmenities(Amenities amenities)
+        public void DeleteAmenities(int amenitiesId)
         {
             using (var connection = new NpgsqlConnection(_connectionString))
             {
@@ -154,7 +154,7 @@ namespace Hotel.Repositories
 
                 using (var command = new NpgsqlCommand(query, connection))
                 {
-                    command.Parameters.AddWithValue("@id", amenities.Id);
+                    command.Parameters.AddWithValue("@id", amenitiesId);
                     command.ExecuteNonQuery();
                 }
             }

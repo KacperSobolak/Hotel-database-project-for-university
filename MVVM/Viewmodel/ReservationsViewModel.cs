@@ -24,6 +24,7 @@ namespace Hotel.MVVM.Viewmodel
         public RelayCommand AddReservationCommand { get; set; }
         public RelayCommand EditReservationCommand { get; set; }
         public RelayCommand ShowAmenitiesCommand { get; set; }
+        public RelayCommand DeleteReservationCommand { get; set; }
 
         public ReservationsViewModel(IReservationRepository reservationRepository, IGuestsRepository guestsRepository, IRoomRepository roomRepository, IAmenitiesRepository amenitiesRepository)
         {
@@ -37,6 +38,7 @@ namespace Hotel.MVVM.Viewmodel
             AddReservationCommand = new RelayCommand(o => AddReservation(), o => true);
             EditReservationCommand = new RelayCommand(EditReservation, o => true);
             ShowAmenitiesCommand = new RelayCommand(ShowAmenities, o => true);
+            DeleteReservationCommand = new RelayCommand(DeleteReservation, o => true);
         }
 
         public override void OnEnter()
@@ -117,6 +119,20 @@ namespace Hotel.MVVM.Viewmodel
                     var index = Reservations.IndexOf(reservationToEdit);
                     Reservations[index] = updatedReservation;
                 }
+            }
+        }
+
+        private void DeleteReservation(object parameter)
+        {
+            var reservationToDelete = parameter as Reservation;
+            if (reservationToDelete == null)
+                return;
+
+            var result = MessageBox.Show("Czy na pewno chcesz usunąć rezerwację?", "Usuwanie rezerwacji", MessageBoxButton.YesNo);
+            if (result == MessageBoxResult.Yes)
+            {
+                _reservationRepository.DeleteReservation(reservationToDelete.Id);
+                Reservations.Remove(reservationToDelete);
             }
         }
     }

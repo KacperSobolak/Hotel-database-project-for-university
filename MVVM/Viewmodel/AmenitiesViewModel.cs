@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using Hotel.Core;
 using Hotel.MVVM.Model;
 using Hotel.MVVM.View.PopUp;
@@ -19,6 +20,7 @@ namespace Hotel.MVVM.Viewmodel
         public ObservableCollection<Amenities> Amenities { get; set; }
         public RelayCommand AddAmenityCommand { get; set; }
         public RelayCommand EditAmenityCommand { get; set; }
+        public RelayCommand DeleteAmenityCommand { get; set; }
 
         public AmenitiesViewModel(IAmenitiesRepository amenitiesRepository)
         {
@@ -28,6 +30,7 @@ namespace Hotel.MVVM.Viewmodel
 
             AddAmenityCommand = new RelayCommand(o => AddAmenity(), o => true);
             EditAmenityCommand = new RelayCommand(EditAmenity, o => true);
+            DeleteAmenityCommand = new RelayCommand(DeleteAmenity, o => true);
         }
 
         public override void OnEnter()
@@ -80,6 +83,20 @@ namespace Hotel.MVVM.Viewmodel
                     Amenities[index] = updatedAmenities;
                 }
             }
+        }
+
+        private void DeleteAmenity(object parameter)
+        {
+            var result = MessageBox.Show("Czy chcesz usunąć udogodnienie? Jeśli to zrobisz to zostaną usunięte ze wszystkich rezerwacji", "Usunięcie udogodnienia", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            if (result == MessageBoxResult.No) return;
+
+            var amenitiesToDelete = parameter as Amenities;
+            if (amenitiesToDelete == null)
+                return;
+
+
+            _amenitiesRepository.DeleteAmenities(amenitiesToDelete.Id);
+            Amenities.Remove(amenitiesToDelete);
         }
     }
 }

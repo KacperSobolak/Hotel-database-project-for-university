@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using Hotel.Core;
 using Hotel.MVVM.Model;
 using Hotel.MVVM.View.PopUp;
@@ -21,6 +22,7 @@ namespace Hotel.MVVM.Viewmodel
 
         public RelayCommand AddRoomCommand { get; set; }
         public RelayCommand EditRoomCommand { get; set; }
+        public RelayCommand DeleteRoomCommand { get; set; }
 
         public RoomsViewModel(IRoomRepository roomRepository, ICategoriesRepository categoriesRepository)
         {
@@ -31,6 +33,7 @@ namespace Hotel.MVVM.Viewmodel
 
             AddRoomCommand = new RelayCommand(o => AddRoom(), o => true);
             EditRoomCommand = new RelayCommand(EditRoom, o => true);
+            DeleteRoomCommand = new RelayCommand(DeleteRoom, o => true);
         }
 
         public override void OnEnter()
@@ -83,6 +86,19 @@ namespace Hotel.MVVM.Viewmodel
                     Rooms[index] = room;
                 }
             }
+        }
+
+        private void DeleteRoom(object parameter)
+        {
+            var result = MessageBox.Show("Czy chcesz usunąć pokój, zostaną również usunięte wszystkie rezerwację, które są z nim związanane?", "Usunięcie pokoju", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            if (result == MessageBoxResult.No) return;
+
+            var roomToDelete = parameter as Room;
+            if (roomToDelete == null)
+                return;
+
+            _roomRepository.DeleteRoom(roomToDelete.Id);
+            Rooms.Remove(roomToDelete);
         }
     }
 }

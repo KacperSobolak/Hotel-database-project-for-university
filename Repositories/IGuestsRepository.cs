@@ -12,6 +12,6 @@ namespace Hotel.Repositories
         IEnumerable<Guest> GetGuests();
         int AddGuest(Guest guest);
         void UpdateGuest(Guest guest);
-        void DeleteGuest(Guest guest);
+        void DeleteGuest(int guestId);
     }
 }

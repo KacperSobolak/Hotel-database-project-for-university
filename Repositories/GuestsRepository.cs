@@ -90,7 +90,7 @@ namespace Hotel.Repositories
             }
         }
 
-        public void DeleteGuest(Guest guest)
+        public void DeleteGuest(int guestId)
         {
             using (var connection = new NpgsqlConnection(_connectionString))
             {
@@ -99,7 +99,7 @@ namespace Hotel.Repositories
 
                 using (var command = new NpgsqlCommand(query, connection))
                 {
-                    command.Parameters.AddWithValue("@id", guest.Id);
+                    command.Parameters.AddWithValue("@id", guestId);
                     command.ExecuteNonQuery();
                 }
             }

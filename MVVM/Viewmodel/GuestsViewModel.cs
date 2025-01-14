@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using Hotel.Core;
 using Hotel.MVVM.Model;
 using Hotel.MVVM.View.PopUp;
@@ -20,6 +21,7 @@ namespace Hotel.MVVM.Viewmodel
 
         public RelayCommand AddGuestCommand { get; set; }
         public RelayCommand EditGuestCommand { get; set; }
+        public RelayCommand DeleteGuestCommand { get; set; }
 
         public GuestsViewModel(IGuestsRepository guestsRepository)
         {
@@ -29,6 +31,7 @@ namespace Hotel.MVVM.Viewmodel
 
             AddGuestCommand = new RelayCommand(o => AddGuest(), o => true);
             EditGuestCommand = new RelayCommand(EditGuest, o => true);
+            DeleteGuestCommand = new RelayCommand(DeleteGuest, o => true);
         }
 
         public override void OnEnter()
@@ -81,6 +84,19 @@ namespace Hotel.MVVM.Viewmodel
                     Guests[index] = updatedGuest;
                 }
             }
+        }
+
+        private void DeleteGuest(object parameter)
+        {
+            var result = MessageBox.Show("Czy chcesz usunąć gościa, jeśli to zrobisz to zostaną usunięte wszystkie rezerwacje, które są z nim związane?", "Usunięcie gościa", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            if (result == MessageBoxResult.No) return;
+
+            var guestToDelete = parameter as Guest;
+            if (guestToDelete == null)
+                return;
+
+            _guestsRepository.DeleteGuest(guestToDelete.Id);
+            Guests.Remove(guestToDelete);
         }
     }
 }
