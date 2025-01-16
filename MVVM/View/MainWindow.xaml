@@ -14,34 +14,33 @@
         </Grid.RowDefinitions>
 
         <StackPanel Orientation="Horizontal" Background="DarkGray">
-            <Button Content="Home"
+            <!--<Button Content="Informacje"
                     FontSize="25"
-                    Command="{Binding NavigateToHomeCommand}"/>
+                    Command="{Binding NavigateToHomeCommand}"/>-->
 
-            <Button Content="Reservations"
+            <Button Content="Zarezerwuj"
                     FontSize="25"
-                    Command="{Binding NavigateToReservationsCommand}"/>
-
-            <Button Content="Rooms"
-                    FontSize="25"
-                    Command="{Binding NavigateToRoomsCommand}"/>
+                    Command="{Binding NavigateToBookCommand}"/>
 
             <Button Content="Kategorie"
                     FontSize="25"
                     Command="{Binding NavigateToCategoriesCommand}"/>
 
-            <Button Content="Guests"
+            <Button Content="Pokoje"
                     FontSize="25"
-                    Command="{Binding NavigateToGuestsCommand}"/>
+                    Command="{Binding NavigateToRoomsCommand}"/>
 
-            <Button Content="Book"
-                    FontSize="25"
-                    Command="{Binding NavigateToBookCommand}"/>
-
-            <Button Content="Amenities"
+            <Button Content="Udogodnienia"
                     FontSize="25"
                     Command="{Binding NavigateToAmenitiesCommand}"/>
 
+            <Button Content="Goście"
+                    FontSize="25"
+                    Command="{Binding NavigateToGuestsCommand}"/>
+
+            <Button Content="Rezerwacje"
+                    FontSize="25"
+                    Command="{Binding NavigateToReservationsCommand}"/>
         </StackPanel>
 
         <ContentControl Grid.Row="1" Content="{Binding NavigationService.CurrentView}">

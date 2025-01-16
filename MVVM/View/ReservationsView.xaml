@@ -16,11 +16,11 @@
         <ListView Grid.Row="0" ItemsSource="{Binding Reservations}" Margin="10">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Header="Room" DisplayMemberBinding="{Binding Room.RoomNumber}" Width="Auto" />
-                    <GridViewColumn Header="Guest" DisplayMemberBinding="{Binding Guest.Name}" Width="Auto" />
-                    <GridViewColumn Header="Start Date" DisplayMemberBinding="{Binding StartDate}" Width="Auto" />
-                    <GridViewColumn Header="End Date" DisplayMemberBinding="{Binding EndDate}" Width="Auto" />
-                    <GridViewColumn Header="Total Price" DisplayMemberBinding="{Binding TotalPrice}" Width="Auto" />
+                    <GridViewColumn Header="Numer pokoju" DisplayMemberBinding="{Binding Room.RoomNumber}" Width="Auto" />
+                    <GridViewColumn Header="Gość" DisplayMemberBinding="{Binding Guest.Name}" Width="Auto" />
+                    <GridViewColumn Header="Data początkowa" DisplayMemberBinding="{Binding StartDate}" Width="Auto" />
+                    <GridViewColumn Header="Data końcowa" DisplayMemberBinding="{Binding EndDate}" Width="Auto" />
+                    <GridViewColumn Header="Cena całkowita" DisplayMemberBinding="{Binding TotalPrice}" Width="Auto" />
                     <GridViewColumn Header="Udogodnienia" Width="Auto">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
@@ -29,7 +29,7 @@
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Header="Akcje" Width="Auto">
+                    <GridViewColumn Header="Edycja" Width="Auto">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <Button Content="Edytuj" Command="{Binding DataContext.EditReservationCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
@@ -37,7 +37,7 @@
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Header="Akcje" Width="Auto">
+                    <GridViewColumn Header="Usunięcie" Width="Auto">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <Button Content="Usuń" Command="{Binding DataContext.DeleteReservationCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
@@ -49,6 +49,6 @@
             </ListView.View>
         </ListView>
 
-        <Button Grid.Row="1" Content="Add Reservation" Command="{Binding AddReservationCommand}" Height="40" FontSize="16" Width="200" Margin="10" HorizontalAlignment="Center" />
+        <Button Grid.Row="1" Content="Dodaj rezerwację ręcznie (nie zalecane)" Command="{Binding AddReservationCommand}" Height="40" FontSize="16" Width="auto" Margin="10" HorizontalAlignment="Center" />
     </Grid>
 </UserControl>

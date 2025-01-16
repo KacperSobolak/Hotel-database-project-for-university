@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Hotel.MVVM.View.PopUp"
         mc:Ignorable="d"
-        Title="GuestPickerView" Height="450" Width="800">
+        Title="Wybór gościa" Height="450" Width="800">
     <Grid>
         <DataGrid ItemsSource="{Binding Guests}" AutoGenerateColumns="False" IsReadOnly="True">
             <DataGrid.Columns>

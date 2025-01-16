@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Hotel.MVVM.View.PopUp"
         mc:Ignorable="d"
-        Title="ShowAmenitiesView" Height="450" Width="800">
+        Title="Wyświetlanie udogodnień" Height="450" Width="800">
     <Grid>
         <ListView Grid.Row ="0" ItemsSource="{Binding AmenitiesCollection}" Margin="10">
             <ListView.View>

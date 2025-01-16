@@ -14,11 +14,11 @@
         <ListView Grid.Row ="0" ItemsSource="{Binding Amenities}" Margin="10">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}" Width="Auto"/>
-                    <GridViewColumn Header="Description" DisplayMemberBinding="{Binding Description}" Width="Auto"/>
-                    <GridViewColumn Header="PricePerNight" DisplayMemberBinding="{Binding PricePerNight}" Width="Auto"/>
-                    <GridViewColumn Header="MaxAvailablePerDay" DisplayMemberBinding="{Binding MaxAvailablePerDay}" Width="Auto"/>
-                    <GridViewColumn Header="Functions" Width="Auto">
+                    <GridViewColumn Header="Nazwa" DisplayMemberBinding="{Binding Name}" Width="Auto"/>
+                    <GridViewColumn Header="Opis" DisplayMemberBinding="{Binding Description}" Width="Auto"/>
+                    <GridViewColumn Header="Cena za noc" DisplayMemberBinding="{Binding PricePerNight}" Width="Auto"/>
+                    <GridViewColumn Header="Ilość na dzień" DisplayMemberBinding="{Binding MaxAvailablePerDay}" Width="Auto"/>
+                    <GridViewColumn Header="Edycja" Width="Auto">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <Button Content="Edytuj"
@@ -27,7 +27,7 @@
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Header="Funkcje" Width="Auto">
+                    <GridViewColumn Header="Usunięcie" Width="Auto">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <Button Content="Usuń"

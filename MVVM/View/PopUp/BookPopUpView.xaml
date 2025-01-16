@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Hotel.MVVM.View.PopUp"
         mc:Ignorable="d"
-        Title="BookPopUpView" Height="450" Width="800">
+        Title="Potwierdzenie rezerwacji" Height="450" Width="800">
     <Grid>
         <StackPanel Margin="20">
             <TextBlock Text="Potwierdzenie rezerwacji" FontSize="20" FontWeight="Bold" Margin="0,0,0,20"/>
