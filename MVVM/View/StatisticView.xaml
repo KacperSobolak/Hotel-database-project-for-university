@@ -15,6 +15,7 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
@@ -35,5 +36,12 @@
 
         <TextBlock Text="Zarobki z rezerwacji zaczetych (skończonych lub nie):" FontWeight="Bold" Grid.Row="4" Grid.Column="0" Margin="5" VerticalAlignment="Center"/>
         <TextBlock Text="{Binding TotalRevenue}" Grid.Row="4" Grid.Column="1" Margin="5" VerticalAlignment="Center"/>
+
+        <StackPanel Grid.Row="5">
+            <Button Content="Ranking pokojów" Command="{Binding RoomsRankCommand}" Margin="5"/>
+            <Button Content="Ranking kategorii" Command="{Binding CategoriesRankCommand}" Margin="5"/>
+            <Button Content="Ranking ilości osób w rezerwacji" Command="{Binding NumberOfAdultsRankCommand}" Margin="5"/>
+            <Button Content="Ranking udogodnień" Command="{Binding AmenitiesRankCommand}" Margin="5"/>
+        </StackPanel>
     </Grid>
 </UserControl>

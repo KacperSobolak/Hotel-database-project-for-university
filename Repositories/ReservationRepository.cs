@@ -131,6 +131,98 @@ namespace Hotel.Repositories
             }
         }
 
+        public IEnumerable<KeyValuePair<string, int>> GetMostPopularRoom()
+        {
+            var roomsRank = new List<KeyValuePair<string, int>>();
+
+            using (var connection = new NpgsqlConnection(_connectionString))
+            {
+                connection.Open();
+                var cmd = new NpgsqlCommand("select * from project.rooms_statistic", connection);
+
+                using (var reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        var roomNumber = reader.GetInt32(reader.GetOrdinal("room_number")).ToString();
+                        var count = reader.GetInt32(reader.GetOrdinal("reservation_count"));
+                        var room = new KeyValuePair<string, int>(roomNumber, count);
+                        roomsRank.Add(room);
+                    }
+                }
+            }
+            return roomsRank;
+        }
+
+        public IEnumerable<KeyValuePair<string, int>> GetMostPopularNumberOfAdults()
+        {
+            var adultsRank = new List<KeyValuePair<string, int>>();
+
+            using (var connection = new NpgsqlConnection(_connectionString))
+            {
+                connection.Open();
+                var cmd = new NpgsqlCommand("select * from project.number_of_adults_statistic", connection);
+
+                using (var reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        var numberOfAdults = reader.GetInt32(reader.GetOrdinal("max_adults")).ToString();
+                        var count = reader.GetInt32(reader.GetOrdinal("reservation_count"));
+                        var number = new KeyValuePair<string, int>(numberOfAdults, count);
+                        adultsRank.Add(number);
+                    }
+                }
+            }
+            return adultsRank;
+        }
+
+        public IEnumerable<KeyValuePair<string, int>> GetMostPopularCategory()
+        {
+            var categoriesRank = new List<KeyValuePair<string, int>>();
+
+            using (var connection = new NpgsqlConnection(_connectionString))
+            {
+                connection.Open();
+                var cmd = new NpgsqlCommand("select * from project.categories_statistic", connection);
+
+                using (var reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        var categoryName = reader.GetString(reader.GetOrdinal("category_name"));
+                        var count = reader.GetInt32(reader.GetOrdinal("reservation_count"));
+                        var category = new KeyValuePair<string, int>(categoryName, count);
+                        categoriesRank.Add(category);
+                    }
+                }
+            }
+            return categoriesRank;
+        }
+
+        public IEnumerable<KeyValuePair<string, int>> GetMostPopularAmenity()
+        {
+            var amenitiesRank = new List<KeyValuePair<string, int>>();
+
+            using (var connection = new NpgsqlConnection(_connectionString))
+            {
+                connection.Open();
+                var cmd = new NpgsqlCommand("select * from project.amenities_statistic", connection);
+
+                using (var reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        var amenityName = reader.GetString(reader.GetOrdinal("amenity_name"));
+                        var count = reader.GetInt32(reader.GetOrdinal("usage_count"));
+                        var amenity = new KeyValuePair<string, int>(amenityName, count);
+                        amenitiesRank.Add(amenity);
+                    }
+                }
+            }
+            return amenitiesRank;
+        }
+
         public int GetPastReservationsNumber()
         {
             using (var connection = new NpgsqlConnection(_connectionString))

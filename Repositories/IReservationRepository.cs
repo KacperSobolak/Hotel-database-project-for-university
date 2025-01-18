@@ -13,6 +13,10 @@ namespace Hotel.Repositories
         IEnumerable<Reservation> GetAllActualReservations();
         int AddReservation(Reservation reservation);
         int GetReservationsNumber();
+        IEnumerable<KeyValuePair<string, int>> GetMostPopularRoom();                                                                                        
+        IEnumerable<KeyValuePair<string, int>> GetMostPopularNumberOfAdults();
+        IEnumerable<KeyValuePair<string, int>> GetMostPopularCategory();
+        IEnumerable<KeyValuePair<string, int>> GetMostPopularAmenity();
         int GetPastReservationsNumber();
         double GetReservationsRevenue();
         Reservation GetReservation(int id);

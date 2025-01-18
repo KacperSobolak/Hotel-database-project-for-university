@@ -4,6 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Hotel.Core;
+using Hotel.MVVM.Model;
+using Hotel.MVVM.View.PopUp;
+using Hotel.MVVM.Viewmodel.PopUp;
 using Hotel.Repositories;
 
 namespace Hotel.MVVM.Viewmodel
@@ -24,7 +27,7 @@ namespace Hotel.MVVM.Viewmodel
         {
             get { return _totalRooms; }
             set
-            {
+            {   
                 _totalRooms = value;
                 OnPropertyChanged();
             }
@@ -70,16 +73,36 @@ namespace Hotel.MVVM.Viewmodel
             }
         }
 
+        public RelayCommand RoomsRankCommand { get; set; }
+        public RelayCommand CategoriesRankCommand { get; set; }
+        public RelayCommand NumberOfAdultsRankCommand { get; set; }
+        public RelayCommand AmenitiesRankCommand { get; set; }
+
         public StatisticViewModel(IGuestsRepository guestsRepository, IRoomRepository roomRepository, IReservationRepository reservationRepository)
         {
             _guestsRepository = guestsRepository;
             _roomRepository = roomRepository;
             _reservationRepository = reservationRepository;
+
+            RoomsRankCommand = new RelayCommand(o => ShowRank(_reservationRepository.GetMostPopularRoom()), o => true);
+            CategoriesRankCommand = new RelayCommand(o => ShowRank(_reservationRepository.GetMostPopularCategory()), o => true);
+            NumberOfAdultsRankCommand = new RelayCommand(o => ShowRank(_reservationRepository.GetMostPopularNumberOfAdults()), o => true);
+            AmenitiesRankCommand = new RelayCommand(o => ShowRank(_reservationRepository.GetMostPopularAmenity()), o => true);
         }
 
         public override void OnEnter()
         {
             LoadStatistics();
+        }
+
+        private void ShowRank(IEnumerable<KeyValuePair<string, int>> elements)
+        {
+            var dialog = new StatisticPopUpView()
+            {
+                DataContext = new StatisticPopUpViewModel(elements)
+            };
+
+            dialog.ShowDialog();
         }
 
         private void LoadStatistics()
@@ -89,11 +112,6 @@ namespace Hotel.MVVM.Viewmodel
             TotalBookings = _reservationRepository.GetReservationsNumber();
             TotalRevenue = _reservationRepository.GetReservationsRevenue();
             TotalPastBooking = _reservationRepository.GetPastReservationsNumber();
-        }
-
-        public StatisticViewModel()
-        {
-
         }
     }
 }
