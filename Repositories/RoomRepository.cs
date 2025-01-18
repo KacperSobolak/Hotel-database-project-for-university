@@ -24,7 +24,7 @@ namespace Hotel.Repositories
             using (var connection = new NpgsqlConnection(_connectionString))
             {
                 connection.Open();
-                string query = "SELECT * FROM project.room_details";
+                string query = "SELECT * FROM project.room_details order by room_number";
 
                 using (var command = new NpgsqlCommand(query, connection))
                 {

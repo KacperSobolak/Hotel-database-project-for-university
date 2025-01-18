@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Hotel.Core;
+using Hotel.MVVM.Viewmodel;
 
 namespace Hotel.Services
 {
@@ -31,6 +32,7 @@ namespace Hotel.Services
         public NavigationService(Func<Type, ViewModel> viewModelFactory)
         {
             _viewModelFactory = viewModelFactory;
+            NavigateTo<HomeViewModel>();
         }
 
         public void NavigateTo<TViewModel>() where TViewModel : ViewModel

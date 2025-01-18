@@ -105,8 +105,8 @@ namespace Hotel.Repositories
 
         public void AddAmenityToReservation(Amenities amenity, int reservationId, int quantity, double price)
         {
-            const string query = @"INSERT INTO project.reservation_amenities (reservation_id, amenity_id, quantity, total_price)
-                                 VALUES (@ReservationId, @AmenityId, @Quantity, @Price);";
+            const string query = @"INSERT INTO project.reservation_amenities (reservation_id, amenity_id, quantity)
+                                 VALUES (@ReservationId, @AmenityId, @Quantity);";
 
             using (var connection = new NpgsqlConnection(_connectionString)) 
             {
@@ -117,7 +117,6 @@ namespace Hotel.Repositories
                     command.Parameters.AddWithValue("@ReservationId", reservationId);
                     command.Parameters.AddWithValue("@AmenityId", amenity.Id);
                     command.Parameters.AddWithValue("@Quantity", quantity);
-                    command.Parameters.AddWithValue("@Price", price);
 
                     command.ExecuteNonQuery();
                 }

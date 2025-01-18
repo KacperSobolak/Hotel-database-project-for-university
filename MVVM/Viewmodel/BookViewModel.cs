@@ -160,7 +160,7 @@ namespace Hotel.MVVM.Viewmodel
 
             if (id == -1)
             {
-                MessageBox.Show("Nie ma dostępnych pokoi w tej kategorii");
+                MessageBox.Show("Nie ma dostępnych pokoi, które spełniają podane wymagania");
             }
             else
             {
