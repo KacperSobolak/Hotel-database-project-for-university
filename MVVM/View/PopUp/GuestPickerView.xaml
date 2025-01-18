@@ -9,16 +9,15 @@
     <Grid>
         <DataGrid ItemsSource="{Binding Guests}" AutoGenerateColumns="False" IsReadOnly="True">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="*" />
-                <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="*" />
-                <DataGridTextColumn Header="Surname" Binding="{Binding Surname}" Width="*" />
-                <DataGridTextColumn Header="Phone" Binding="{Binding Phone}" Width="*" />
-                <DataGridTextColumn Header="Email" Binding="{Binding Email}" Width="*" />
-                <DataGridTextColumn Header="Date of Birth" Binding="{Binding DateOfBirth}" Width="*" />
-                <DataGridTemplateColumn Header="Pick">
+                <DataGridTextColumn Header="Imię" Binding="{Binding Name}" Width="Auto" />
+                <DataGridTextColumn Header="Nazwisko" Binding="{Binding Surname}" Width="Auto" />
+                <DataGridTextColumn Header="Telefon" Binding="{Binding Phone}" Width="Auto"/>
+                <DataGridTextColumn Header="Email" Binding="{Binding Email}" Width="Auto" />
+                <DataGridTextColumn Header="Data urodzenia" Binding="{Binding DateOfBirth}" Width="Auto" />
+                <DataGridTemplateColumn Header="Wybranie">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Button Content="Pick" Command="{Binding DataContext.PickGuestCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}" CommandParameter="{Binding}" />
+                            <Button Content="Wybierz" Command="{Binding DataContext.PickGuestCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}" CommandParameter="{Binding}" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>

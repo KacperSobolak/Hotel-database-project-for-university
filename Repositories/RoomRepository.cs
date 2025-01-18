@@ -48,6 +48,19 @@ namespace Hotel.Repositories
             return rooms;
         }
 
+        public int GetRoomsNumber()
+        {
+            using (var connection = new NpgsqlConnection(_connectionString))
+            {
+                connection.Open();
+                string query = "SELECT COUNT(*) FROM project.rooms";
+
+                using (var command = new NpgsqlCommand(query, connection))
+                {
+                    return Convert.ToInt32(command.ExecuteScalar());
+                }
+            }
+        }
 
         public int AddRoom(Room room)
         {
@@ -101,7 +114,7 @@ namespace Hotel.Repositories
             {
                 connection.Open();
 
-                var query = "DELETE FROM rooms WHERE id = @Id;";
+                var query = "DELETE FROM project.rooms WHERE id = @Id;";
 
                 using (var command = new NpgsqlCommand(query, connection))
                 {

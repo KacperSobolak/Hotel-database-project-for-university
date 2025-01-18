@@ -32,5 +32,9 @@
         <DataTemplate DataType="{x:Type viewmodel:AmenitiesViewModel}">
             <view:AmenitiesView/>
         </DataTemplate>
+
+        <DataTemplate DataType="{x:Type viewmodel:StatisticViewModel}">
+            <view:StatisticView/>
+        </DataTemplate>
     </Application.Resources>
 </Application>

@@ -10,7 +10,11 @@ namespace Hotel.Repositories
     interface IReservationRepository
     {
         IEnumerable<Reservation> GetAllReservations();
+        IEnumerable<Reservation> GetAllActualReservations();
         int AddReservation(Reservation reservation);
+        int GetReservationsNumber();
+        int GetPastReservationsNumber();
+        double GetReservationsRevenue();
         Reservation GetReservation(int id);
         int FindAvailableRoom(Reservation reservation, Category category, int numberOfAdults);
         IEnumerable<AmenityItem> GetAmenitiesForReservation(int reservationId);

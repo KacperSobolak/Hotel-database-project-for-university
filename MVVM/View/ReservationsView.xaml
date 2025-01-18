@@ -10,11 +10,14 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-
-        <ListView Grid.Row="0" ItemsSource="{Binding Reservations}" Margin="10">
+        <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Center">
+            <CheckBox Content="Ukryj rezerwacji, które mineły" IsChecked="{Binding HideOldReservations, Mode=TwoWay}" Margin="10"></CheckBox>
+        </StackPanel>
+        <ListView Grid.Row="1" ItemsSource="{Binding Reservations}" Margin="10">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="Numer pokoju" DisplayMemberBinding="{Binding Room.RoomNumber}" Width="Auto" />
@@ -50,6 +53,6 @@
             </ListView.View>
         </ListView>
 
-        <Button Grid.Row="1" Content="Dodaj rezerwację ręcznie (nie zalecane)" Command="{Binding AddReservationCommand}" Height="40" FontSize="16" Width="auto" Margin="10" HorizontalAlignment="Center" />
+        <Button Grid.Row="2" Content="Dodaj rezerwację ręcznie (nie zalecane)" Command="{Binding AddReservationCommand}" Height="40" FontSize="16" Width="auto" Margin="10" HorizontalAlignment="Center" />
     </Grid>
 </UserControl>

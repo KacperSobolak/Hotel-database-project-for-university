@@ -105,7 +105,7 @@ namespace Hotel.MVVM.Viewmodel.PopUp
             GuestName = reservation.Guest != null ? $"{reservation.Guest.Name} {reservation.Guest.Surname}" : "Nie wybrano";
             RoomNumber = reservation.Room != null ? reservation.Room.RoomNumber.ToString() : "Nie wybrano";
             _oldReservation = new Reservation(reservation);
-            _updatedAmenitiesList = new List<AmenityItem>();
+            _updatedAmenitiesList = new List<AmenityItem>(_reservationRepository.GetAmenitiesForReservation(Reservation.Id).ToList());
 
             ConfirmCommand = new RelayCommand(Confirm, o => ValidateAndConfirm());
             CancelCommand = new RelayCommand(Cancel, o => true);
@@ -116,14 +116,18 @@ namespace Hotel.MVVM.Viewmodel.PopUp
 
         private void EditAmenities()
         {
-            var amenityItemsForReservation= _reservationRepository.GetAmenitiesForReservation(_reservation.Id).ToList();
+            var amenityItemsForReservation= _updatedAmenitiesList;
             var oldAmenitiesPrice = amenityItemsForReservation.Sum(a => a.Amenity.PricePerNight * (_reservation.EndDate.DayNumber - _reservation.StartDate.DayNumber) * a.Quantity);
-            var allAmenityItems = _amenitiesRepository.GetAllAmenities();
+            var allAmenityItems = _amenitiesRepository.GetAmenitiesAvailableForDateRange(Reservation.StartDate, Reservation.EndDate);
             foreach (var amenityItem in allAmenityItems)
             {
                 if (amenityItemsForReservation.All(x => x.Amenity.Id != amenityItem.Id))
                 {
                     amenityItemsForReservation.Add(new AmenityItem(amenityItem, 0));
+                }
+                else
+                {
+                    amenityItemsForReservation.First(x => x.Amenity.Id == amenityItem.Id).Amenity.MaxAvailablePerDay = amenityItem.MaxAvailablePerDay;
                 }
             }
             var dialog = new AddAmenitiesPopUpView()

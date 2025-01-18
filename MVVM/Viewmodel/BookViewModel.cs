@@ -107,7 +107,7 @@ namespace Hotel.MVVM.Viewmodel
 
         public override void OnEnter()
         {
-
+            NumberOfAdults = 1;
             SetUpCategories();
             SetUpDates();
         }
@@ -192,6 +192,14 @@ namespace Hotel.MVVM.Viewmodel
 
         private bool CanCreateReservation()
         {
+            if (StartDate >= EndDate)
+            {
+                return false;
+            }
+            if (SelectedGuest == null)
+            {
+                return false;
+            }
             return true;
         }
     }

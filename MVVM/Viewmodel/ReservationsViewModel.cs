@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.ObjectModel;
 using System.Windows;
 using Hotel.Core;
 using Hotel.MVVM.Model;
@@ -19,7 +14,18 @@ namespace Hotel.MVVM.Viewmodel
         private readonly IGuestsRepository _guestsRepository;
         private readonly IRoomRepository _roomRepository;
         private readonly IAmenitiesRepository _amenitiesRepository;
+        private bool _hideOldReservations;
         public ObservableCollection<Reservation> Reservations { get; set; }
+        public bool HideOldReservations
+        {
+            get => _hideOldReservations;
+            set
+            {
+                _hideOldReservations = value;
+                OnPropertyChanged();
+                LoadReservations();
+            }
+        }
 
         public RelayCommand AddReservationCommand { get; set; }
         public RelayCommand EditReservationCommand { get; set; }
@@ -43,13 +49,18 @@ namespace Hotel.MVVM.Viewmodel
 
         public override void OnEnter()
         {
+            Reservations = new ObservableCollection<Reservation>();
             LoadReservations();
         }
 
         private void LoadReservations()
         {
-            var reservationList = _reservationRepository.GetAllReservations();
-            Reservations = new ObservableCollection<Reservation>(reservationList);
+            var reservationList = HideOldReservations ? _reservationRepository.GetAllActualReservations() : _reservationRepository.GetAllReservations();
+            Reservations.Clear();
+            foreach (var reservation in reservationList)
+            {
+                Reservations.Add(reservation);
+            }
         }
 
         private void ShowAmenities(object parameter)

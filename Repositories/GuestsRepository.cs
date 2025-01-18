@@ -104,5 +104,19 @@ namespace Hotel.Repositories
                 }
             }
         }
+
+        public int GetGuestsNumber()
+        {
+            using (var connection = new NpgsqlConnection(_connectionString))
+            {
+                connection.Open();
+                string query = "SELECT COUNT(*) FROM project.guests";
+
+                using (var command = new NpgsqlCommand(query, connection))
+                {
+                    return Convert.ToInt32(command.ExecuteScalar());
+                }
+            }
+        }
     }
 }

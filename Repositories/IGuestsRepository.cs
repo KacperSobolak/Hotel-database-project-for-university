@@ -13,5 +13,6 @@ namespace Hotel.Repositories
         int AddGuest(Guest guest);
         void UpdateGuest(Guest guest);
         void DeleteGuest(int guestId);
+        int GetGuestsNumber();
     }
 }

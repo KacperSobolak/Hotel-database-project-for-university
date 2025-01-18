@@ -18,6 +18,8 @@ namespace Hotel
 
         public App()
         {
+            Dispatcher.UnhandledException += OnDispatcherUnhandledException;
+
             IServiceCollection services = new ServiceCollection();
             services.AddSingleton<MainWindow>(provider => new MainWindow()
             {
@@ -31,6 +33,7 @@ namespace Hotel
             services.AddSingleton<GuestsViewModel>();
             services.AddSingleton<BookViewModel>();
             services.AddSingleton<AmenitiesViewModel>();
+            services.AddSingleton<StatisticViewModel>();
             services.AddSingleton<INavigationService, NavigationService>();
             services.AddSingleton<ICategoriesRepository, CategoriesRepository>();
             services.AddSingleton<IGuestsRepository, GuestsRepository>();
@@ -49,6 +52,11 @@ namespace Hotel
             var mainWindow = _serviceProvider.GetRequiredService<MainWindow>();
             mainWindow.Show();
             base.OnStartup(e);
+        }
+
+        void OnDispatcherUnhandledException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)
+        {
+            MessageBox.Show("Unhandled exception occurred: \n" + e.Exception.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
         }
     }
 

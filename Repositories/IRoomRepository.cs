@@ -10,6 +10,7 @@ namespace Hotel.Repositories
     public interface IRoomRepository
     {
         IEnumerable<Room> GetAllRooms();
+        int GetRoomsNumber();
         int AddRoom(Room room);
         void UpdateRoom(Room room);
         void DeleteRoom(int id);

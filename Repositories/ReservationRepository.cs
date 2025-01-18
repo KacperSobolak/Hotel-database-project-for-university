@@ -24,13 +24,7 @@ namespace Hotel.Repositories
             using (var connection = new NpgsqlConnection(_connectionString))
             {
                 connection.Open();
-                var cmd = new NpgsqlCommand("SELECT r.id, r.room_id, r.guest_id, r.start_date, r.end_date, r.total_price, " +
-                                            "ro.room_number, ro.max_adults, rc.name AS category_name, rc.price_per_night_per_adult, " +
-                                            "g.name AS guest_name, g.surname AS guest_surname " +
-                                            "FROM project.reservations r " +
-                                            "JOIN project.rooms ro ON r.room_id = ro.id " +
-                                            "JOIN project.room_categories rc ON ro.category_id = rc.id " +
-                                            "JOIN project.guests g ON r.guest_id = g.id", connection);
+                var cmd = new NpgsqlCommand("SELECT * FROM project.reservation_details", connection);
 
                 using (var reader = cmd.ExecuteReader())
                 {
@@ -41,6 +35,46 @@ namespace Hotel.Repositories
                             Id = reader.GetInt32(reader.GetOrdinal("id")),
                             StartDate = DateOnly.FromDateTime(reader.GetDateTime(reader.GetOrdinal("start_date"))), 
                             EndDate = DateOnly.FromDateTime(reader.GetDateTime(reader.GetOrdinal("end_date"))),  
+                            TotalPrice = reader.GetDouble(reader.GetOrdinal("total_price")),
+                            Room = new Room
+                            {
+                                Id = reader.GetInt32(reader.GetOrdinal("room_id")),
+                                RoomNumber = reader.GetInt32(reader.GetOrdinal("room_number")),
+                                MaxAdults = reader.GetInt32(reader.GetOrdinal("max_adults")),
+                                CategoryName = reader.GetString(reader.GetOrdinal("category_name"))
+                            },
+                            Guest = new Guest
+                            {
+                                Id = reader.GetInt32(reader.GetOrdinal("guest_id")),
+                                Name = reader.GetString(reader.GetOrdinal("guest_name")),
+                                Surname = reader.GetString(reader.GetOrdinal("guest_surname"))
+                            }
+                        });
+                    }
+                }
+            }
+
+            return reservations;
+        }
+
+        public IEnumerable<Reservation> GetAllActualReservations()
+        {
+            var reservations = new List<Reservation>();
+
+            using (var connection = new NpgsqlConnection(_connectionString))
+            {
+                connection.Open();
+                var cmd = new NpgsqlCommand("SELECT * FROM project.reservation_details r WHERE r.end_date >= NOW()", connection);
+
+                using (var reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        reservations.Add(new Reservation
+                        {
+                            Id = reader.GetInt32(reader.GetOrdinal("id")),
+                            StartDate = DateOnly.FromDateTime(reader.GetDateTime(reader.GetOrdinal("start_date"))),
+                            EndDate = DateOnly.FromDateTime(reader.GetDateTime(reader.GetOrdinal("end_date"))),
                             TotalPrice = reader.GetDouble(reader.GetOrdinal("total_price")),
                             Room = new Room
                             {
@@ -80,6 +114,48 @@ namespace Hotel.Repositories
 
                 var newId = (int)cmd.ExecuteScalar();  
                 return newId;
+            }
+        }
+
+        public int GetReservationsNumber()
+        {
+            using (var connection = new NpgsqlConnection(_connectionString))
+            {
+                connection.Open();
+                string query = "SELECT COUNT(*) FROM project.reservations";
+
+                using (var command = new NpgsqlCommand(query, connection))
+                {
+                    return Convert.ToInt32(command.ExecuteScalar());
+                }
+            }
+        }
+
+        public int GetPastReservationsNumber()
+        {
+            using (var connection = new NpgsqlConnection(_connectionString))
+            {
+                connection.Open();
+                string query = "SELECT COUNT(*) FROM project.reservations r WHERE r.end_date <= NOW();";
+
+                using (var command = new NpgsqlCommand(query, connection))
+                {
+                    return Convert.ToInt32(command.ExecuteScalar());
+                }
+            }
+        }
+
+        public double GetReservationsRevenue()
+        {
+            using (var connection = new NpgsqlConnection(_connectionString))
+            {
+                connection.Open();
+                string query = "SELECT COALESCE(SUM(total_price), 0) FROM project.reservations WHERE start_date <= NOW();";
+
+                using (var command = new NpgsqlCommand(query, connection))
+                {
+                    return Convert.ToInt32(command.ExecuteScalar());
+                }
             }
         }
 
