@@ -46,17 +46,24 @@ namespace Hotel.MVVM.Viewmodel
                 DataContext = new PopUpViewModel<Guest>("Dodawanie użytkownika", "Dodaj")
             };
 
-            if (dialog.ShowDialog() == true)
+            try
             {
-                var viewModel = dialog.DataContext as PopUpViewModel<Guest>;
-                var newGuest = viewModel?.Element;
-
-                if (newGuest != null)
+                if (dialog.ShowDialog() == true)
                 {
-                    var id = _guestsRepository.AddGuest(newGuest);
-                    newGuest.Id = id;
-                    Guests.Add(newGuest);
+                    var viewModel = dialog.DataContext as PopUpViewModel<Guest>;
+                    var newGuest = viewModel?.Element;
+
+                    if (newGuest != null)
+                    {
+                        var id = _guestsRepository.AddGuest(newGuest);
+                        newGuest.Id = id;
+                        Guests.Add(newGuest);
+                    }
                 }
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("Nie udało się dodać gościa, nie poprawne dane" + e.Message);
             }
         }
 
@@ -71,18 +78,25 @@ namespace Hotel.MVVM.Viewmodel
                 DataContext = new PopUpViewModel<Guest>("Edytowanie gościa", "Edytuj", new Guest(guestToEdit))
             };
 
-            if (dialog.ShowDialog() == true)
+            try
             {
-                var viewModel = dialog.DataContext as PopUpViewModel<Guest>;
-                var updatedGuest = viewModel?.Element;
-
-                if (updatedGuest != null)
+                if (dialog.ShowDialog() == true)
                 {
-                    _guestsRepository.UpdateGuest(updatedGuest);
+                    var viewModel = dialog.DataContext as PopUpViewModel<Guest>;
+                    var updatedGuest = viewModel?.Element;
 
-                    var index = Guests.IndexOf(guestToEdit);
-                    Guests[index] = updatedGuest;
+                    if (updatedGuest != null)
+                    {
+                        _guestsRepository.UpdateGuest(updatedGuest);
+
+                        var index = Guests.IndexOf(guestToEdit);
+                        Guests[index] = updatedGuest;
+                    }
                 }
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("Nie udało się edytować gościa, nie poprawne dane" + e.Message);
             }
         }
 

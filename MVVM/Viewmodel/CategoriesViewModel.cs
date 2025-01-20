@@ -41,17 +41,24 @@ namespace Hotel.MVVM.Viewmodel
                 DataContext = new PopUpViewModel<Category>("Dodawanie kategorii","Dodaj")
             };
 
-            if (dialog.ShowDialog() == true)
+            try
             {
-                var viewModel = dialog.DataContext as PopUpViewModel<Category>;
-                var newCategory = viewModel?.Element;
-
-                if (newCategory != null)
+                if (dialog.ShowDialog() == true)
                 {
-                    var id = _categoriesRepository.AddCategory(newCategory);
-                    newCategory.Id = id;
-                    Categories.Add(newCategory);
+                    var viewModel = dialog.DataContext as PopUpViewModel<Category>;
+                    var newCategory = viewModel?.Element;
+
+                    if (newCategory != null)
+                    {
+                        var id = _categoriesRepository.AddCategory(newCategory);
+                        newCategory.Id = id;
+                        Categories.Add(newCategory);
+                    }
                 }
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("Nie udało się dodać kategorii, nie poprawne dane" + e.Message);
             }
         }
 
@@ -66,18 +73,25 @@ namespace Hotel.MVVM.Viewmodel
                 DataContext = new PopUpViewModel<Category>("Edytowanie elementu","Edytuj", new Category(categoryToEdit))
             };
 
-            if (dialog.ShowDialog() == true)
+            try
             {
-                var viewModel = dialog.DataContext as PopUpViewModel<Category>;
-                var updatedCategory = viewModel?.Element;
-
-                if (updatedCategory != null)
+                if (dialog.ShowDialog() == true)
                 {
-                    _categoriesRepository.UpdateCategory(updatedCategory);
+                    var viewModel = dialog.DataContext as PopUpViewModel<Category>;
+                    var updatedCategory = viewModel?.Element;
 
-                    var index = Categories.IndexOf(categoryToEdit);
-                    Categories[index] = updatedCategory;
+                    if (updatedCategory != null)
+                    {
+                        _categoriesRepository.UpdateCategory(updatedCategory);
+
+                        var index = Categories.IndexOf(categoryToEdit);
+                        Categories[index] = updatedCategory;
+                    }
                 }
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("Nie udało się dodać kategorii, nie poprawne dane" + e.Message);
             }
         }
 

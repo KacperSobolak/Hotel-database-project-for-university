@@ -45,17 +45,24 @@ namespace Hotel.MVVM.Viewmodel
                 DataContext = new PopUpViewModel<Amenities>("Dodawanie udogodnienia", "Dodaj")
             };
 
-            if (dialog.ShowDialog() == true)
+            try
             {
-                var viewModel = dialog.DataContext as PopUpViewModel<Amenities>;
-                var newAmenity = viewModel?.Element;
-
-                if (newAmenity != null)
+                if (dialog.ShowDialog() == true)
                 {
-                    var id = _amenitiesRepository.AddAmenities(newAmenity);
-                    newAmenity.Id = id;
-                    Amenities.Add(newAmenity);
+                    var viewModel = dialog.DataContext as PopUpViewModel<Amenities>;
+                    var newAmenity = viewModel?.Element;
+
+                    if (newAmenity != null)
+                    {
+                        var id = _amenitiesRepository.AddAmenities(newAmenity);
+                        newAmenity.Id = id;
+                        Amenities.Add(newAmenity);
+                    }
                 }
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("Nie udało się dodać udogodnienia, nie poprawne dane" + e.Message);
             }
         }
 
@@ -70,18 +77,25 @@ namespace Hotel.MVVM.Viewmodel
                 DataContext = new PopUpViewModel<Amenities>("Edytowanie elementu", "Edytuj", new Amenities(amenitiesToEdit))
             };
 
-            if (dialog.ShowDialog() == true)
+            try
             {
-                var viewModel = dialog.DataContext as PopUpViewModel<Amenities>;
-                var updatedAmenities = viewModel?.Element;
-
-                if (updatedAmenities != null)
+                if (dialog.ShowDialog() == true)
                 {
-                    _amenitiesRepository.UpdateAmenities(updatedAmenities);
+                    var viewModel = dialog.DataContext as PopUpViewModel<Amenities>;
+                    var updatedAmenities = viewModel?.Element;
 
-                    var index = Amenities.IndexOf(amenitiesToEdit);
-                    Amenities[index] = updatedAmenities;
+                    if (updatedAmenities != null)
+                    {
+                        _amenitiesRepository.UpdateAmenities(updatedAmenities);
+
+                        var index = Amenities.IndexOf(amenitiesToEdit);
+                        Amenities[index] = updatedAmenities;
+                    }
                 }
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("Nie udało się edytować udogodnienia, nie poprawne dane" + e.Message);
             }
         }
 

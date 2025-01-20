@@ -93,18 +93,24 @@ namespace Hotel.MVVM.Viewmodel
             {
                 DataContext = new ReservationPopUpViewModel("Dodawanie rezerwacji", "Dodaj", newReservation, _guestsRepository, _roomRepository, _reservationRepository, _amenitiesRepository)
             };
-
-            if (dialog.ShowDialog() == true)
+            try
             {
-                var viewModel = dialog.DataContext as ReservationPopUpViewModel;
-                var reservation = viewModel?.Reservation;
-
-                if (reservation != null)
+                if (dialog.ShowDialog() == true)
                 {
-                    var newReservationId = _reservationRepository.AddReservation(reservation);
-                    reservation.Id = newReservationId;
-                    Reservations.Add(reservation);
+                    var viewModel = dialog.DataContext as ReservationPopUpViewModel;
+                    var reservation = viewModel?.Reservation;
+
+                    if (reservation != null)
+                    {
+                        var newReservationId = _reservationRepository.AddReservation(reservation);
+                        reservation.Id = newReservationId;
+                        Reservations.Add(reservation);
+                    }
                 }
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("Nie udało się dodać rezerwacji, nie poprawne dane" + e.Message);
             }
         }
 
@@ -119,17 +125,24 @@ namespace Hotel.MVVM.Viewmodel
                 DataContext = new ReservationPopUpViewModel("Edytowanie rezerwacji", "Edytuj", new Reservation(reservationToEdit), _guestsRepository, _roomRepository, _reservationRepository, _amenitiesRepository)
             };
 
-            if (dialog.ShowDialog() == true)
+            try
             {
-                var viewModel = dialog.DataContext as ReservationPopUpViewModel;
-                var updatedReservation = viewModel?.Reservation;
-
-                if (updatedReservation != null)
+                if (dialog.ShowDialog() == true)
                 {
-                    _reservationRepository.UpdateReservation(updatedReservation);
-                    var index = Reservations.IndexOf(reservationToEdit);
-                    Reservations[index] = updatedReservation;
+                    var viewModel = dialog.DataContext as ReservationPopUpViewModel;
+                    var updatedReservation = viewModel?.Reservation;
+
+                    if (updatedReservation != null)
+                    {
+                        _reservationRepository.UpdateReservation(updatedReservation);
+                        var index = Reservations.IndexOf(reservationToEdit);
+                        Reservations[index] = updatedReservation;
+                    }
                 }
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("Nie udało się edytować rezerwacji, nie poprawne dane" + e.Message);
             }
         }
 

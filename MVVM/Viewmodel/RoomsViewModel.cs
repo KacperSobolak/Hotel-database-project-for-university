@@ -49,17 +49,24 @@ namespace Hotel.MVVM.Viewmodel
                 DataContext = new RoomPopUpViewModel("Dodawanie pokoju", "Dodaj", newRoom, _categoryRepository.GetCategories())
             };
 
-            if (dialog.ShowDialog() == true)
+            try
             {
-                var viewModel = dialog.DataContext as RoomPopUpViewModel;
-                var room = viewModel?.Room;
-
-                if (room != null)
+                if (dialog.ShowDialog() == true)
                 {
-                    var newRoomId = _roomRepository.AddRoom(room);
-                    room.Id = newRoomId;
-                    Rooms.Add(room);
+                    var viewModel = dialog.DataContext as RoomPopUpViewModel;
+                    var room = viewModel?.Room;
+
+                    if (room != null)
+                    {
+                        var newRoomId = _roomRepository.AddRoom(room);
+                        room.Id = newRoomId;
+                        Rooms.Add(room);
+                    }
                 }
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("Nie udało się dodać pokoju, nie poprawne dane" + e.Message);
             }
         }
 
@@ -74,17 +81,24 @@ namespace Hotel.MVVM.Viewmodel
                 DataContext = new RoomPopUpViewModel("Edycja pokoju", "Zapisz", new Room(roomToEdit), _categoryRepository.GetCategories())
             };
 
-            if (dialog.ShowDialog() == true)
+            try
             {
-                var viewModel = dialog.DataContext as RoomPopUpViewModel;
-                var room = viewModel?.Room;
-
-                if (room != null)
+                if (dialog.ShowDialog() == true)
                 {
-                    _roomRepository.UpdateRoom(room);
-                    var index = Rooms.IndexOf(roomToEdit);
-                    Rooms[index] = room;
+                    var viewModel = dialog.DataContext as RoomPopUpViewModel;
+                    var room = viewModel?.Room;
+
+                    if (room != null)
+                    {
+                        _roomRepository.UpdateRoom(room);
+                        var index = Rooms.IndexOf(roomToEdit);
+                        Rooms[index] = room;
+                    }
                 }
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("Nie udało się dodać pokoju, nie poprawne dane" + e.Message);
             }
         }
 
